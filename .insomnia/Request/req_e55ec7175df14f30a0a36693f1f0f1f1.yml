@@ -1,0 +1,23 @@
+_id: req_e55ec7175df14f30a0a36693f1f0f1f1
+type: Request
+parentId: fld_ba9502cebd934130ab9927d65ad0983f
+modified: 1711535969352
+created: 1711535239521
+url: "{{ _.base_url }}tours"
+name: getAll
+description: ""
+method: GET
+body: {}
+parameters: []
+headers:
+  - name: User-Agent
+    value: insomnia/2023.5.8
+authentication: {}
+metaSortKey: -1711535239521
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
