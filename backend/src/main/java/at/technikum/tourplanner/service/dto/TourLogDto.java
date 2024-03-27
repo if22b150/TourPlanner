@@ -1,4 +1,4 @@
-package at.technikum.tourplanner.dto;
+package at.technikum.tourplanner.service.dto;
 
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;

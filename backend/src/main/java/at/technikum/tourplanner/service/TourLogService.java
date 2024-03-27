@@ -1,6 +1,6 @@
 package at.technikum.tourplanner.service;
 
-import at.technikum.tourplanner.dto.TourLogDto;
+import at.technikum.tourplanner.service.dto.TourLogDto;
 
 import java.util.List;
 

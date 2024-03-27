@@ -1,6 +1,6 @@
 package at.technikum.tourplanner.controller;
 
-import at.technikum.tourplanner.dto.TourDto;
+import at.technikum.tourplanner.service.dto.TourDto;
 import at.technikum.tourplanner.service.TourService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package at.technikum.tourplanner.mapper;
+package at.technikum.tourplanner.service.mapper;
 
-import at.technikum.tourplanner.dto.TourLogDto;
-import at.technikum.tourplanner.entity.TourLogEntity;
+import at.technikum.tourplanner.service.dto.TourLogDto;
+import at.technikum.tourplanner.persistence.entity.TourLogEntity;
 import org.springframework.stereotype.Component;
 
 @Component

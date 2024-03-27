@@ -1,9 +1,9 @@
 package at.technikum.tourplanner.service.impl;
 
-import at.technikum.tourplanner.dto.TourDto;
-import at.technikum.tourplanner.entity.TourEntity;
-import at.technikum.tourplanner.mapper.TourMapper;
-import at.technikum.tourplanner.repository.TourRepository;
+import at.technikum.tourplanner.service.dto.TourDto;
+import at.technikum.tourplanner.persistence.entity.TourEntity;
+import at.technikum.tourplanner.service.mapper.TourMapper;
+import at.technikum.tourplanner.persistence.repository.TourRepository;
 import at.technikum.tourplanner.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
