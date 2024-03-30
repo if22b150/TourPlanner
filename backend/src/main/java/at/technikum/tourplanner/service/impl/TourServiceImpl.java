@@ -30,6 +30,9 @@ public class TourServiceImpl implements TourService {
                 .imagePath(tourDto.getImagePath())
                 .build();
         tourRepository.save(entity);
+
+        // TODO: the image, the distance, and the time should be retrieved by a REST request using the OpenRouteservice.org APIs and OpenStreetMap Tile Server
+
         return tourMapper.mapToDto(entity);
     }
 
