@@ -1,4 +1,4 @@
-package at.technikum.tourplanner.entity;
+package at.technikum.tourplanner.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

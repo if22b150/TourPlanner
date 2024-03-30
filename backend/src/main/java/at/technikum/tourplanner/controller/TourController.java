@@ -1,6 +1,6 @@
 package at.technikum.tourplanner.controller;
 
-import at.technikum.tourplanner.dto.TourDto;
+import at.technikum.tourplanner.service.dto.TourDto;
 import at.technikum.tourplanner.service.TourService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class TourController {
         return tourService.createTour(tour);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
             MethodArgumentNotValidException ex) {

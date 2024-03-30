@@ -1,4 +1,4 @@
-package at.technikum.tourplanner.mapper;
+package at.technikum.tourplanner.service.mapper;
 
 import java.util.ArrayList;
 import java.util.Collection;

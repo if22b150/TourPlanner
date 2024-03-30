@@ -1,4 +1,4 @@
-package at.technikum.tourplanner.dto;
+package at.technikum.tourplanner.service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

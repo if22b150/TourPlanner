@@ -1,9 +1,9 @@
 package at.technikum.tourplanner.service.impl;
 
-import at.technikum.tourplanner.dto.TourDto;
-import at.technikum.tourplanner.entity.TourEntity;
-import at.technikum.tourplanner.mapper.TourMapper;
-import at.technikum.tourplanner.repository.TourRepository;
+import at.technikum.tourplanner.service.dto.TourDto;
+import at.technikum.tourplanner.persistence.entity.TourEntity;
+import at.technikum.tourplanner.service.mapper.TourMapper;
+import at.technikum.tourplanner.persistence.repository.TourRepository;
 import at.technikum.tourplanner.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,6 +30,9 @@ public class TourServiceImpl implements TourService {
                 .imagePath(tourDto.getImagePath())
                 .build();
         tourRepository.save(entity);
+
+        // TODO: the image, the distance, and the time should be retrieved by a REST request using the OpenRouteservice.org APIs and OpenStreetMap Tile Server
+
         return tourMapper.mapToDto(entity);
     }
 
