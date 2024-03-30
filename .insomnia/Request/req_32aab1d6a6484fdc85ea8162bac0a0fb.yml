@@ -1,7 +1,7 @@
 _id: req_32aab1d6a6484fdc85ea8162bac0a0fb
 type: Request
 parentId: fld_2c4c08a46d5140bc98c141bb6c0dc066
-modified: 1711807485462
+modified: 1711807912436
 created: 1711806085433
 url: "{{ _.base_url }}tours/102/tour-logs"
 name: create
@@ -11,13 +11,12 @@ body:
   mimeType: application/json
   text: |-
     {
-    	"date": "2024-03-29T10:00:00",
-      "comment": "This was a great tour!",
+    	"date": "2024-03-29T12:00:00",
+      "comment": "This was a fantastic tour!",
       "difficulty": 5,
       "totalDistance": 20.5,
       "totalTime": 2.5,
-      "rating": 4,
-      "tourId": 1
+      "rating": 5
     }
 parameters: []
 headers:
