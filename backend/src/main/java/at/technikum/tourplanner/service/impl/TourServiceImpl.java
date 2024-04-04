@@ -1,5 +1,6 @@
 package at.technikum.tourplanner.service.impl;
 
+import at.technikum.tourplanner.persistence.repository.TourLogRepository;
 import at.technikum.tourplanner.service.dto.TourDto;
 import at.technikum.tourplanner.persistence.entity.TourEntity;
 import at.technikum.tourplanner.service.mapper.TourMapper;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TourServiceImpl implements TourService {
@@ -16,6 +18,8 @@ public class TourServiceImpl implements TourService {
     private TourRepository tourRepository;
     @Autowired
     private TourMapper tourMapper;
+    @Autowired
+    private TourLogRepository tourLogRepository;
 
     @Override
     public TourDto createTour(TourDto tourDto) {
@@ -39,5 +43,38 @@ public class TourServiceImpl implements TourService {
     @Override
     public List<TourDto> getAllTours() {
         return tourMapper.mapToDto(tourRepository.findAll());
+    }
+
+    @Override
+    public List<TourDto> getToursByName(String name) {
+        return tourMapper.mapToDto(tourRepository.findByNameIgnoreCase(name));
+    }
+
+    @Override
+    public TourDto updateTour(Long id, TourDto tourDto) {
+        TourEntity tourEntity = tourRepository.getReferenceById(id);
+
+        tourEntity.setName(tourDto.getName());
+        tourEntity.setDescription(tourDto.getDescription());
+        tourEntity.setFrom(tourDto.getFrom());
+        tourEntity.setTo(tourDto.getTo());
+        tourEntity.setDistance(tourDto.getDistance());
+        tourEntity.setEstimatedTime(tourDto.getEstimatedTime());
+        tourEntity.setTransportType(tourDto.getTransportType());
+        tourEntity.setImagePath(tourDto.getImagePath());
+
+        // Save the updated entity
+        tourRepository.save(tourEntity);
+
+        return tourMapper.mapToDto(tourEntity);
+    }
+
+    @Override
+    public void deleteTour(Long id) {
+        TourEntity tourEntity = tourRepository.getReferenceById(id);
+        // Delete associated TourLogs
+        tourLogRepository.deleteByTour(tourEntity);
+        // Delete the Tour
+        tourRepository.delete(tourEntity);
     }
 }

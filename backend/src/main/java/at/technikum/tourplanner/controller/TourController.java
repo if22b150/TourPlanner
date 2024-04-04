@@ -5,6 +5,7 @@ import at.technikum.tourplanner.service.TourService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,24 @@ public class TourController {
         return tourService.getAllTours();
     }
 
+    @GetMapping("/name/{name}")
+    public List<TourDto> getToursByName(@PathVariable String name) { return tourService.getToursByName(name); }
+
+
     @PostMapping
     public TourDto create(@Valid @RequestBody TourDto tour) {
         return tourService.createTour(tour);
+    }
+
+    @PutMapping("/{id}")
+    public TourDto update(@PathVariable Long id, @Valid @RequestBody TourDto tourDto) {
+            return tourService.updateTour(id, tourDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        tourService.deleteTour(id);
+        return ResponseEntity.noContent().build();
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)

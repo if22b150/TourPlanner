@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface TourLogRepository extends JpaRepository<TourLogEntity, Long> {
     List<TourLogEntity> findByTour(TourEntity tour);
+    void deleteByTour(TourEntity tour);
 }

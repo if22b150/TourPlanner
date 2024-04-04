@@ -39,8 +39,7 @@ public class TourLogEntity {
     @Column(nullable = false)
     private Integer rating;
 
-    @Column(nullable = false)
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "tour_id")
+    @JoinColumn(name = "tour_id", nullable = false)
     private TourEntity tour;
 }
