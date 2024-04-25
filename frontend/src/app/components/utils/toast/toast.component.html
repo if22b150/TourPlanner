@@ -1,0 +1,18 @@
+<div
+  class="toast toast-{{type}} mx-auto w-auto"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true">
+<!--  <div class="toast-header toast-{{type}}">-->
+<!--    -->
+<!--  </div>-->
+  <div class="toast-body d-flex justify-content-between gap-3 fs-5">
+    <span>{{text}}</span>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="notificationRef.close()">
+    </button>
+  </div>
+</div>

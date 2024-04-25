@@ -1,0 +1,24 @@
+<button type="button"
+        class="btn btn-{{outlined ? 'outline-' : ''}}{{color}} {{size ? ('btn-' + size) : ''}} {{floating ? 'btn-floating' : ''}} {{customClasses}}"
+        (click)="onClick.emit($event)"
+        [rippleColor]="rippleColor"
+        mdbRipple [routerLink]="routerLink"
+        [disabled]="loading">
+  <ng-container *ngIf="!loading; else loadingTemplate">
+    <i *ngIf="iconClass && !iconPosRight"
+       class="{{iconClass}} {{text ? 'me-2' : ''}}"></i>
+
+    {{ text }}
+
+    <i *ngIf="iconClass && iconPosRight"
+       class="{{iconClass}} {{text ? 'ms-2' : ''}}"></i>
+  </ng-container>
+  <ng-template #loadingTemplate>
+    <span
+      class="spinner-border spinner-border-sm"
+      role="status"
+      aria-hidden="true"
+    ></span>
+    <span class="visually-hidden">Loading...</span>
+  </ng-template>
+</button>

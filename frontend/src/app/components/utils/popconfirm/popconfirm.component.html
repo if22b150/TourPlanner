@@ -1,0 +1,16 @@
+<div class="popconfirm-popover shadow-4">
+  <div class="popconfirm">
+    <p class="popconfirm-message">
+      <span class="popconfirm-message-text">{{ text }}</span>
+    </p>
+    <div class="popconfirm-buttons-container">
+      <app-mdb-button [text]="cancelText"
+                      (onClick)="popconfirmRef.close()"
+                      [size]="'sm'"
+                      [color]="'flat'"></app-mdb-button>
+      <app-mdb-button [text]="submitText"
+                      [size]="'sm'"
+                      (onClick)="popconfirmRef.confirm()"></app-mdb-button>
+    </div>
+  </div>
+</div>
