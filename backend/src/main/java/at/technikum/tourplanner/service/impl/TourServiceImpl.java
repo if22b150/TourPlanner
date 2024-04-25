@@ -8,11 +8,13 @@ import at.technikum.tourplanner.persistence.repository.TourRepository;
 import at.technikum.tourplanner.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component
+@Transactional
 public class TourServiceImpl implements TourService {
     @Autowired
     private TourRepository tourRepository;

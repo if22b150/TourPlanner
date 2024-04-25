@@ -5,6 +5,7 @@ import at.technikum.tourplanner.service.dto.TourLogDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,12 @@ public class TourLogController {
     @PostMapping
     public TourLogDto create(@PathVariable Long tourId, @Valid @RequestBody TourLogDto tourLog) {
         return tourLogService.createTourLog(tourLog, tourId);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        tourLogService.deleteTourLog(id);
+        return ResponseEntity.noContent().build();
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)

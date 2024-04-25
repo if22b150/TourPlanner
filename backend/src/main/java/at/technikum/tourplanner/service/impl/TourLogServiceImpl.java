@@ -46,4 +46,11 @@ public class TourLogServiceImpl implements TourLogService {
         TourEntity tour = tourRepository.getReferenceById(tourId);
         return tourLogMapper.mapToDto(tourLogRepository.findByTour(tour));
     }
+
+    @Override
+    public void deleteTourLog(Long id) {
+        TourLogEntity tourLogEntity = tourLogRepository.getReferenceById(id);
+        // Delete associated TourLogs
+        tourLogRepository.delete(tourLogEntity);
+    }
 }

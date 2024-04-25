@@ -8,4 +8,6 @@ import java.util.List;
 public interface TourLogService {
     TourLogDto createTourLog(TourLogDto tourLogDto, Long tourId);
     List<TourLogDto> getAllTourLogsByTour(Long tourId);
+
+    void deleteTourLog(Long id);
 }
