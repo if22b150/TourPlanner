@@ -1,0 +1,16 @@
+<app-modal (submitClicked)="submit()"
+           title="{{ tour ? 'Edit' : 'Add' }} tour"
+           submitText="{{ tour ? 'Save' : 'Add' }}"
+           closeText="Cancel"
+           [loading]="loading">
+
+  <div class="row g-3" [formGroup]="formGroup">
+    <div class="col-sm-12 mb-2">
+      <app-form-input [id]="'name'"
+                      [label]="'Name'"
+                      [controlName]="'name'"
+                      [formGroup]="formGroup"
+                      [isRequired]="true"></app-form-input>
+    </div>
+  </div>
+</app-modal>

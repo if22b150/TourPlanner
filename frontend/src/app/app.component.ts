@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {TourService} from "./services/tour.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend';
+
+  constructor(private tourService: TourService) {
+  }
+
+  ngOnInit() {
+    this.tourService.getAll();
+  }
 }

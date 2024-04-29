@@ -2,3 +2,13 @@
              actionText="Add Tour"
              actionIcon="fas fa-plus"
              (actionClicked)="add()"></app-heading>
+
+<div *ngIf="(tours && tours.length > 0) || (tours && tours.length == 0 && !(tourService.loading$ | async)); else spinner"
+     class="mt-2">
+  <app-tour-item *ngFor="let tour of tours"
+                 [tour]="tour"></app-tour-item>
+</div>
+
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>
