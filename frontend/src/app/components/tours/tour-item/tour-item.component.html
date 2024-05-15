@@ -6,7 +6,10 @@
       <h3>-</h3>
       <h3>{{tour.to}})</h3>
     </div>
-    <button type="button" class="btn btn-danger"  (click)="delete()" data-mdb-ripple-init>Löschen</button>
+    <div class="tour-top-buttons">
+      <button type="button" class="btn btn-info" (click)="edit()" mdbRipple>Bearbeiten</button>
+      <button type="button" class="btn btn-danger" (click)="delete()" data-mdb-ripple-init>Löschen</button>
+    </div>
   </div>
   <hr>
   <h6>{{tour.description}}</h6>

@@ -2,6 +2,9 @@ import {Component, Input} from '@angular/core';
 import {finalize} from "rxjs";
 import {TourModel} from "../../../models/tour.model";
 import { TourService } from 'src/app/services/tour.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import {MdbModalService} from "mdb-angular-ui-kit/modal";
+import { AddOrEditTourComponent } from '../add-or-edit-tour/add-or-edit-tour.component';
 
 @Component({
   selector: 'app-tour-item',
@@ -14,7 +17,9 @@ export class TourItemComponent {
   @Input({required: true}) tour!: TourModel;
   loading: boolean = false;
 
-  constructor(private tourService: TourService) {
+  constructor(private notificationService: NotificationService,
+    public tourService: TourService,
+    private modalService: MdbModalService) {
 
   }
 
@@ -27,5 +32,16 @@ export class TourItemComponent {
           this.tourService.getAll();
         }
       })
+  }
+
+  edit() {
+    const modalRef = this.modalService.open(AddOrEditTourComponent, { data: { tour: this.tour } });
+    modalRef.onClose.subscribe((value) => {
+      if(!value?.id)
+        return;
+
+      this.tourService.getAll();
+      this.notificationService.notify("Die Tour wurde erfolgreich editiert.")
+    })
   }
 }

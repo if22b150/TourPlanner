@@ -53,16 +53,49 @@ export class AddOrEditTourComponent {
   }
 
   submit() {
+    console.log(this.tour)
+    if (this.tour == undefined)
+      this.create();
+    else
+      this.update();
+  }
+
+  create() {
     this.formGroup.markAllAsTouched();
 
     if(this.formGroup.invalid)
       return;
 
     let resource = this.formGroup.value
-    console.log(resource)
 
     this.loading = true
     this.tourService.create(resource)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (tour) => {
+          this.modalRef.close(tour)
+        },
+        error: (e: HttpErrorResponse) => {
+          if (e?.error?.errors?.contractNumber == "The contract number has already been taken.")
+            this.notificationService.notify("The Contract Number already exists for another customer.", "warning", true, 4000)
+          else if (e?.error?.errors?.name == "The name has already been taken.")
+            this.notificationService.notify("The Name already exists for another customer.", "warning", true, 4000)
+          else
+            this.notificationService.notify("Tour konnte nicht erstellt werden", "danger")
+        }
+      })
+  }
+
+  update() {
+    this.formGroup.markAllAsTouched();
+
+    if(this.formGroup.invalid)
+      return;
+
+    let resource = this.formGroup.value
+
+    this.loading = true
+    this.tourService.update(this.tour.id, resource)
       .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: (tour) => {

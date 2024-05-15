@@ -1,4 +1,4 @@
-<app-modal (submitClicked)="submit()" title="{{ tour ? 'Editieren' : 'Hinzufügen' }} tour" submitText="{{ tour ? 'Speichern' : 'Hinzufügen' }}"
+<app-modal (submitClicked)="submit()" title="Tour {{ tour ? 'editieren' : 'hinzufügen' }}" submitText="{{ tour ? 'Speichern' : 'Hinzufügen' }}"
   closeText="Abbrechen" [loading]="loading">
 
   <div class="row g-3" [formGroup]="formGroup">

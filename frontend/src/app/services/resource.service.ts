@@ -58,7 +58,10 @@ export abstract class ResourceService <M> {
   }
 
   delete(id: number): Observable<any> {
-    console.log(id)
     return this.http.delete<any>(this.apiUrl + this.resourceUrl + `/${id}`)
+  }
+
+  update(id: number, resourceData: any): Observable<any> {
+    return this.http.put<any>(this.apiUrl + this.resourceUrl + `/${id}`, resourceData)
   }
 }
