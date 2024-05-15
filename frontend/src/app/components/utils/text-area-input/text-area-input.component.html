@@ -7,5 +7,5 @@
   <label mdbLabel
          class="form-label"
          for="{{id}}">{{ label }} <span *ngIf="isRequired">*</span></label>
-  <mdb-error *ngIf="isRequired && control?.hasError('required') && (control?.dirty || control?.touched)">{{label}} is required</mdb-error>
+  <mdb-error *ngIf="isRequired && control?.hasError('required') && (control?.dirty || control?.touched)">{{label}} ist erforderlich.</mdb-error>
 </mdb-form-control>

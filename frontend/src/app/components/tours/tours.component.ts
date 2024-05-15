@@ -46,8 +46,21 @@ export class ToursComponent {
       if(!value?.id)
         return;
 
+      this.tours?.push(value)
       this.tourService.getAll();
       this.notificationService.notify("Die Tour wurde erfolgreich erstellt.")
     })
+  }
+
+  onDeleted(id: number) {
+    this.tours = this.tours?.filter(t => t.id != id)
+    this.notificationService.notify("Die Tour wurde gelöscht.")
+    this.tourService.getAll()
+  }
+
+  onUpdated(tour: TourModel) {
+    this.tours = this.tours?.map(t => t.id != t.id ? tour : t)
+    this.notificationService.notify("Die Tour wurde bearbeitet.")
+    this.tourService.getAll()
   }
 }

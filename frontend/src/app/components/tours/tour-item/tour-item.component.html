@@ -1,14 +1,15 @@
-<div class="p-3 border rounded">
-  <div class="tour-top-row">
-    <div class="tour-top-h3">
-      <h3>{{tour.name}}:</h3>
-      <h3>({{tour.from}}</h3>
-      <h3>-</h3>
-      <h3>{{tour.to}})</h3>
-    </div>
-    <div class="tour-top-buttons">
-      <button type="button" class="btn btn-info" (click)="edit()" mdbRipple>Bearbeiten</button>
-      <button type="button" class="btn btn-danger" (click)="delete()" data-mdb-ripple-init>Löschen</button>
+<div class="p-3 border rounded mb-4">
+  <div class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-between">
+    <h3 class="text-sm-start text-center">{{tour.name}}: ({{tour.from}} - {{tour.to}})</h3>
+    <div class="d-flex justify-content-center gap-2">
+      <!-- Small Screen -->
+      <app-mdb-button color="secondary" (onClick)="edit()" customClasses="d-sm-none" iconClass="fas fa-edit"></app-mdb-button>
+      <app-mdb-button color="danger" (onClick)="delete($event)" customClasses="d-sm-none" iconClass="fas fa-trash-alt"></app-mdb-button>
+
+      <!-- Normal Screen -->
+      <app-mdb-button text="Bearbeiten" color="secondary" (onClick)="edit()" customClasses="d-none d-sm-flex" iconClass="fas fa-edit"></app-mdb-button>
+      <app-mdb-button text="Löschen" color="danger" (onClick)="delete($event)" customClasses="d-none d-sm-flex" iconClass="fas fa-trash-alt"></app-mdb-button>
+
     </div>
   </div>
   <hr>

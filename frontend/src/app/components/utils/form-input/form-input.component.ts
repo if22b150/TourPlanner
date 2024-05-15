@@ -24,6 +24,7 @@ export class FormInputComponent {
   @Input({required: true}) formGroup!: FormGroup;
   @Input() isRequired: boolean = false;
   @Input() type: string = 'text';
+  @Input() placeholder: string | undefined;
 
   get control(): AbstractControl | null {
     return this.formGroup!.get(this.controlName!)

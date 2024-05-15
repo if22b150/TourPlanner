@@ -3,10 +3,11 @@
          type="{{type}}"
          id="{{id}}"
          class="form-control"
-         formControlName="{{controlName}}" />
+         formControlName="{{controlName}}"
+         placeholder="{{placeholder}}" />
   <label mdbLabel
          class="form-label"
          for="{{id}}">{{label}} <span *ngIf="isRequired">*</span></label>
-  <mdb-error *ngIf="isRequired && control?.hasError('required') && (control?.dirty || control?.touched)">{{label}} is required</mdb-error>
-  <mdb-error *ngIf="type=='email' && control?.hasError('email') && (control?.dirty || control?.touched)">{{label}} needs to be a valid e-mail address</mdb-error>
+  <mdb-error *ngIf="isRequired && control?.hasError('required') && (control?.dirty || control?.touched)">{{label}} ist erforderlich.</mdb-error>
+  <mdb-error *ngIf="type=='email' && control?.hasError('email') && (control?.dirty || control?.touched)">{{label}} needs to be a valid e-mail address.</mdb-error>
 </mdb-form-control>
