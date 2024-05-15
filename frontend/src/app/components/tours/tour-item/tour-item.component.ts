@@ -8,12 +8,14 @@ import {AddOrEditTourComponent} from '../add-or-edit-tour/add-or-edit-tour.compo
 import {MdbButtonComponent} from "../../utils/mdb-button/mdb-button.component";
 import {MdbPopconfirmService} from "mdb-angular-ui-kit/popconfirm";
 import {PopconfirmComponent} from "../../utils/popconfirm/popconfirm.component";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-tour-item',
   standalone: true,
   imports: [
-    MdbButtonComponent
+    MdbButtonComponent,
+    NgForOf
   ],
   templateUrl: './tour-item.component.html',
   styleUrl: './tour-item.component.scss'
@@ -69,5 +71,9 @@ export class TourItemComponent {
 
       this.onUpdated.emit(value)
     })
+  }
+
+  getTransportations() {
+    return this.tour.transportType.split(',').map(t => t.trim())
   }
 }

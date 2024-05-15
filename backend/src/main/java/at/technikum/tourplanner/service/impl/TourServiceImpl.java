@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public List<TourDto> getAllTours() {
-        return tourMapper.mapToDto(tourRepository.findAll());
+        return tourMapper.mapToDto(tourRepository.findAllByOrderByIdAsc());
     }
 
     @Override

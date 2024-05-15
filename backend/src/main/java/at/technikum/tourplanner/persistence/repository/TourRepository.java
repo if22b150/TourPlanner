@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface TourRepository extends JpaRepository<TourEntity, Long>  {
     List<TourEntity> findByNameIgnoreCase(String name);
+
+    List<TourEntity> findAllByOrderByIdAsc();
 }
