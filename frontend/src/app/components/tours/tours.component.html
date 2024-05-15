@@ -1,12 +1,12 @@
-<app-heading title="Tours"
-             actionText="Add Tour"
-             actionIcon="fas fa-plus"
-             (actionClicked)="add()"></app-heading>
+<div class="heading" style="margin-bottom: 2em;">
+  <app-heading title="Deine Touren" actionText="Tour hinzufügen" actionIcon="fas fa-plus"
+    (actionClicked)="add()"></app-heading>
+</div>
 
-<div *ngIf="(tours && tours.length > 0) || (tours && tours.length == 0 && !(tourService.loading$ | async)); else spinner"
-     class="mt-2">
-  <app-tour-item *ngFor="let tour of tours"
-                 [tour]="tour"></app-tour-item>
+<div
+  *ngIf="(tours && tours.length > 0) || (tours && tours.length == 0 && !(tourService.loading$ | async)); else spinner"
+  class="mt-2">
+  <app-tour-item *ngFor="let tour of tours" [tour]="tour"></app-tour-item>
 </div>
 
 <ng-template #spinner>

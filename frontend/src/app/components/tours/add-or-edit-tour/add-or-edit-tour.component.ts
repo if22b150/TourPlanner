@@ -69,9 +69,6 @@ export class AddOrEditTourComponent {
           this.modalRef.close(tour)
         },
         error: (e: HttpErrorResponse) => {
-          console.log("Create customer error:")
-          console.log(e)
-    
           if (e?.error?.errors?.contractNumber == "The contract number has already been taken.")
             this.notificationService.notify("The Contract Number already exists for another customer.", "warning", true, 4000)
           else if (e?.error?.errors?.name == "The name has already been taken.")

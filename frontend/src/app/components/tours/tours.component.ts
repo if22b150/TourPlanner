@@ -46,9 +46,8 @@ export class ToursComponent {
       if(!value?.id)
         return;
 
-      // this.customers?.push(value)
-      // this.customerService.getAll();
-      this.notificationService.notify("Customer was created.")
+      this.tourService.getAll();
+      this.notificationService.notify("Die Tour wurde erfolgreich erstellt.")
     })
   }
 }
