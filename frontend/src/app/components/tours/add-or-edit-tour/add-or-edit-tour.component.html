@@ -1,16 +1,18 @@
-<app-modal (submitClicked)="submit()"
-           title="{{ tour ? 'Edit' : 'Add' }} tour"
-           submitText="{{ tour ? 'Save' : 'Add' }}"
-           closeText="Cancel"
-           [loading]="loading">
+<app-modal (submitClicked)="submit()" title="{{ tour ? 'Edit' : 'Add' }} tour" submitText="{{ tour ? 'Save' : 'Add' }}"
+  closeText="Cancel" [loading]="loading">
 
   <div class="row g-3" [formGroup]="formGroup">
     <div class="col-sm-12 mb-2">
-      <app-form-input [id]="'name'"
-                      [label]="'Name'"
-                      [controlName]="'name'"
-                      [formGroup]="formGroup"
-                      [isRequired]="true"></app-form-input>
+      <app-form-input [id]="'name'" [label]="'Name'" [controlName]="'name'" [formGroup]="formGroup"
+        [isRequired]="true"></app-form-input>
+      <app-form-input [id]="'from'" [label]="'Startpunkt'" [controlName]="'from'" [formGroup]="formGroup"
+        [isRequired]="true"></app-form-input>
+      <app-form-input [id]="'to'" [label]="'Zielort'" [controlName]="'to'" [formGroup]="formGroup"
+        [isRequired]="true"></app-form-input>
+      <app-form-input [id]="'transportType'" [label]="'Transportmittel'" [controlName]="'transportType'" [formGroup]="formGroup"
+        [isRequired]="true"></app-form-input>
+        <app-form-input [id]="'description'" [label]="'Beschreibung'" [controlName]="'description'" [formGroup]="formGroup"
+        [isRequired]="true"></app-form-input>
     </div>
   </div>
 </app-modal>
