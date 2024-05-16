@@ -1,6 +1,8 @@
 <div class="p-3 border rounded mb-4">
   <div class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-between">
-    <h3 class="text-sm-start text-center">{{tour.name}}: ({{tour.from}} - {{tour.to}})</h3>
+    <a [routerLink]="tour.id + ''">
+      <h3 class="text-sm-start text-center">{{tour.name}}: ({{tour.from}} - {{tour.to}})</h3>
+    </a>
 
     <div class="d-flex justify-content-center gap-2">
       <!-- Small Screen -->

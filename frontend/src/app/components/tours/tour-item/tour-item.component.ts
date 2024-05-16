@@ -9,13 +9,15 @@ import {MdbButtonComponent} from "../../utils/mdb-button/mdb-button.component";
 import {MdbPopconfirmService} from "mdb-angular-ui-kit/popconfirm";
 import {PopconfirmComponent} from "../../utils/popconfirm/popconfirm.component";
 import {NgForOf} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-tour-item',
   standalone: true,
   imports: [
     MdbButtonComponent,
-    NgForOf
+    NgForOf,
+    RouterLink
   ],
   templateUrl: './tour-item.component.html',
   styleUrl: './tour-item.component.scss'

@@ -1,17 +1,19 @@
-import {Inject, Injectable, InjectionToken, NgModule, Optional} from '@angular/core';
+import {Inject, Injectable, InjectionToken, LOCALE_ID, NgModule, Optional} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {DatePipe} from "@angular/common";
+import {DatePipe, registerLocaleData} from "@angular/common";
 import {MdbPopconfirmService} from "mdb-angular-ui-kit/popconfirm";
 import {MdbModalService} from "mdb-angular-ui-kit/modal";
 import {MdbNotificationService} from "mdb-angular-ui-kit/notification";
 import {environment} from "../environments/environment";
 import {HttpClientModule} from "@angular/common/http";
+import localeDe from '@angular/common/locales/de';
 
 export const ENVIRONMENT = new InjectionToken<{ [key: string]: any }>('environment')
+registerLocaleData(localeDe);
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +43,7 @@ export class EnvironmentService {
   ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment },
+    { provide: LOCALE_ID, useValue: 'de' },
     MdbNotificationService,
     MdbModalService,
     MdbPopconfirmService,

@@ -1,0 +1,25 @@
+<td>{{tourLog.date}}</td>
+<td>{{tourLog.comment}}</td>
+<td>{{tourLog.totalDistance | number}} km</td>
+<td>{{tourLog.totalTime | number}} h</td>
+<td>{{tourLog.difficulty}}</td>
+<td><app-star-rating [max]="5" [rating]="tourLog.rating"></app-star-rating></td>
+<td>
+  <div class="d-flex align-items-center gap-2">
+    <app-mdb-button [iconClass]="'fas fa-pen'"
+                    [outlined]="true"
+                    (onClick)="edit()"
+                    [mdbTooltip]="'Bearbeiten'"
+                    [floating]="true"
+                    [rippleColor]="'dark'"
+                    [loading]="loading"></app-mdb-button>
+    <app-mdb-button [iconClass]="'fas fa-trash-alt'"
+                    [outlined]="true"
+                    (onClick)="delete($event)"
+                    [mdbTooltip]="'Löschen'"
+                    [floating]="true"
+                    [color]="'danger'"
+                    [rippleColor]="'dark'"
+                    [loading]="loading"></app-mdb-button>
+  </div>
+</td>

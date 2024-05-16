@@ -1,0 +1,22 @@
+<div class="table-responsive" >
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Datum</th>
+      <th scope="col">Kommentar</th>
+      <th scope="col">Distanz</th>
+      <th scope="col">Dauer</th>
+      <th scope="col">Schwierigkeit</th>
+      <th scope="col">Bewertung</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody *ngIf="!loading && tourLogs">
+      <tr app-tour-log-row *ngFor="let tourLog of tourLogs" [tourLog]="tourLog"></tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="tourLogs?.length == 0" class="d-flex justify-content-center">Keine TourLogs vorhanden.</div>
+<app-spinner *ngIf="loading"></app-spinner>
+

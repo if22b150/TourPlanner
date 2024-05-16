@@ -1,7 +1,7 @@
 import {AModel} from "./a-model";
+import {TourLogModel} from "./tour-log.model";
 
 export interface TourModel extends AModel {
-  id: number,
   name: string,
   description: string,
   from: string,
@@ -9,5 +9,6 @@ export interface TourModel extends AModel {
   transportType: string,
   distance: number,
   estimatedTime: number,
-  imagePath: string
+  imagePath: string,
+  tourLogs?: TourLogModel[]
 }

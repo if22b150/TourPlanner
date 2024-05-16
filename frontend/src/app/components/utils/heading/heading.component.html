@@ -5,6 +5,6 @@
         class="m-0" [innerHTML]="subtitle"></h5>
   </div>
 
-  <app-mdb-button (onClick)="actionClicked.emit()" [text]="actionText" [iconClass]="actionIcon"></app-mdb-button>
+  <app-mdb-button *ngIf="actionText || actionIcon" (onClick)="actionClicked.emit()" [text]="actionText" [iconClass]="actionIcon"></app-mdb-button>
 
 </div>

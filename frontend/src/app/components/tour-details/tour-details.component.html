@@ -1,0 +1,15 @@
+<div *ngIf="!(tourService.loading$ | async) || (tourService.data$|async); else spinner">
+  <div class="heading" style="margin-bottom: 2em;">
+    <app-heading title="{{tour!.name}} : ({{tour!.from}} - {{tour!.to}})"></app-heading>
+  </div>
+
+  <h4>Tour Logs</h4>
+  <div class="mt-2">
+    <app-tour-logs [tour]="tour!"></app-tour-logs>
+  </div>
+</div>
+
+
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>
