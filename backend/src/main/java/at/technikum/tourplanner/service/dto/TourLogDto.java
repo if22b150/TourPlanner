@@ -1,5 +1,6 @@
 package at.technikum.tourplanner.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -19,6 +20,7 @@ public class TourLogDto {
     private Long id;
 
     @NotNull(message = "Date is required.")
+    @JsonFormat(pattern="dd.MM.yyyy HH:mm:ss")
     private Date date;
 
     @NotBlank(message = "Comment is required.")

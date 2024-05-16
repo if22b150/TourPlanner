@@ -21,7 +21,7 @@ public class TourLogEntity {
     private Long id;
 
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat()
     private Date date;
 
     @Column(nullable = false)
