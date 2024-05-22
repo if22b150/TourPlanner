@@ -12,6 +12,7 @@ import {TourService} from "../../services/tour.service";
 import {filter, finalize} from "rxjs";
 import {TourLogService} from "../../services/tour-log.service";
 import {TourLogsComponent} from "./tour-logs/tour-logs.component";
+import { AddOrEditTourLogComponent } from './tour-logs/add-or-edit-tour-log/add-or-edit-tour-log.component';
 
 @Component({
   selector: 'app-tour-details',
@@ -30,7 +31,7 @@ import {TourLogsComponent} from "./tour-logs/tour-logs.component";
 })
 export class TourDetailsComponent {
   tour: TourModel | undefined
-  urlTourId: number | undefined
+  urlTourId!: number;
 
   tourLogs: TourLogModel[] | undefined
   loading: boolean = false
@@ -67,6 +68,20 @@ export class TourDetailsComponent {
           // this.breadcrumbService.customer = c
         }
       })
+  }
+
+  add() {
+    let modalRef = this.modalService.open(AddOrEditTourLogComponent)
+    modalRef.component.urlTourId = this.urlTourId;
+    modalRef.onClose.subscribe((value) => {
+      
+      if(!value?.id)
+        return;
+
+      this.tourLogs?.push(value)
+      this.tourLogService.getAll(this.urlTourId);
+      this.notificationService.notify("Die Tour wurde erfolgreich erstellt.")
+    })
   }
 
   handleInvalidTour() {

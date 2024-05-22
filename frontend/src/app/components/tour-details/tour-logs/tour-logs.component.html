@@ -8,8 +8,8 @@
       <th scope="col">Dauer</th>
       <th scope="col">Schwierigkeit</th>
       <th scope="col">Bewertung</th>
-      <th scope="col"></th>
     </tr>
+    
     </thead>
     <tbody *ngIf="!loading && tourLogs">
       <tr app-tour-log-row *ngFor="let tourLog of tourLogs" [tourLog]="tourLog"></tr>
@@ -19,4 +19,3 @@
 
 <div *ngIf="tourLogs?.length == 0" class="d-flex justify-content-center">Keine TourLogs vorhanden.</div>
 <app-spinner *ngIf="loading"></app-spinner>
-

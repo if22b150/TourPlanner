@@ -4,6 +4,7 @@ import at.technikum.tourplanner.persistence.entity.TourEntity;
 import at.technikum.tourplanner.persistence.entity.TourLogEntity;
 import at.technikum.tourplanner.persistence.repository.TourLogRepository;
 import at.technikum.tourplanner.persistence.repository.TourRepository;
+import at.technikum.tourplanner.service.dto.TourDto;
 import at.technikum.tourplanner.service.dto.TourLogDto;
 import at.technikum.tourplanner.service.TourLogService;
 import at.technikum.tourplanner.service.mapper.TourLogMapper;
@@ -45,6 +46,21 @@ public class TourLogServiceImpl implements TourLogService {
     public List<TourLogDto> getAllTourLogsByTour(Long tourId) {
         TourEntity tour = tourRepository.getReferenceById(tourId);
         return tourLogMapper.mapToDto(tourLogRepository.findByTour(tour));
+    }
+
+    @Override
+    public TourLogDto updateTourLog(Long tourId, Long tourLogId, TourLogDto tourLogDto) {
+        TourLogEntity tourLogEntity = tourLogRepository.getReferenceById(tourLogId);
+
+        tourLogEntity.setDate(tourLogDto.getDate());
+        tourLogEntity.setTotalTime(tourLogDto.getTotalTime());
+        tourLogEntity.setTotalDistance(tourLogDto.getTotalDistance());
+        tourLogEntity.setDifficulty(tourLogDto.getDifficulty());
+        tourLogEntity.setRating(tourLogDto.getRating());
+        tourLogEntity.setComment(tourLogDto.getComment());
+        tourLogRepository.save(tourLogEntity);
+
+        return tourLogMapper.mapToDto(tourLogEntity);
     }
 
     @Override

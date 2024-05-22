@@ -19,15 +19,15 @@ export class TourLogService {
     return this.http.get<TourLogModel[]>(this.apiUrl + `tours/${tourId}/tour-logs`)
   }
 
-  // update(customerId: number, id: number, resourceData: any): Observable<MachineModel> {
-  //   return this.http.put<MachineModel>(this.apiUrl + `customers/${customerId}/machines/${id}`, resourceData)
-  // }
-  //
-  // create(customerId: number, resourceData: any): Observable<MachineModel> {
-  //   return this.http.post<MachineModel>(this.apiUrl + `customers/${customerId}/machines`, resourceData)
-  // }
-  //
-  // delete(customerId: number, id: number): Observable<any> {
-  //   return this.http.delete<any>(this.apiUrl + `customers/${customerId}/machines/${id}`)
-  // }
+  update(tourId: number, tourLogId: number, resourceData: any): Observable<TourLogModel> {
+    return this.http.put<TourLogModel>(this.apiUrl + `tours/${tourId}/tour-logs/${tourLogId}`, resourceData)
+  }
+
+  create(tourId: number, resourceData: any): Observable<TourLogModel> {
+    return this.http.post<TourLogModel>(this.apiUrl + `tours/${tourId}/tour-logs`, resourceData)
+  }
+  
+  delete(tourId: number, tourLogId: number): Observable<any> {
+    return this.http.delete<any>(this.apiUrl + `tours/${tourId}/tour-logs/${tourLogId}`)
+  }
 }
