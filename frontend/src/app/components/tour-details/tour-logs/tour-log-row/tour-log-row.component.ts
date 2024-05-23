@@ -6,12 +6,12 @@ import {NotificationService} from "../../../../services/notification.service";
 import {TourLogService} from "../../../../services/tour-log.service";
 import {MdbButtonComponent} from "../../../utils/mdb-button/mdb-button.component";
 import {MdbTooltipModule} from "mdb-angular-ui-kit/tooltip";
-import {DecimalPipe} from "@angular/common";
+import {DatePipe, DecimalPipe} from "@angular/common";
 import {StarRatingComponent} from "../../../utils/star-rating/star-rating.component";
 import {filter, finalize} from "rxjs";
 import {PopconfirmComponent} from "../../../utils/popconfirm/popconfirm.component";
-import { AddOrEditTourLogComponent } from '../add-or-edit-tour-log/add-or-edit-tour-log.component';
-import { TourModel } from 'src/app/models/tour.model';
+import {AddOrEditTourLogComponent} from '../add-or-edit-tour-log/add-or-edit-tour-log.component';
+import {TourModel} from 'src/app/models/tour.model';
 
 @Component({
   selector: '[app-tour-log-row]',
@@ -20,7 +20,8 @@ import { TourModel } from 'src/app/models/tour.model';
     MdbButtonComponent,
     MdbTooltipModule,
     DecimalPipe,
-    StarRatingComponent
+    StarRatingComponent,
+    DatePipe
   ],
   templateUrl: './tour-log-row.component.html',
   styleUrl: './tour-log-row.component.scss'
@@ -40,25 +41,21 @@ export class TourLogRowComponent {
   }
 
   edit() {
-    
-    let modalRef = this.modalService.open(AddOrEditTourLogComponent, {data: {tourLog: this.tourLog, urlTourId: this.tour.id}})
+    let modalRef = this.modalService.open(AddOrEditTourLogComponent,
+      { data: {tourLog: this.tourLog, tour: this.tour}})
     modalRef.onClose.subscribe((value) => {
-      
-      if(!value?.id)
+      if (!value?.id)
         return;
 
-      // this.tourLogs?.push(value)
-      // this.tourService.getAll();
-      this.notificationService.notify("Die Tour wurde erfolgreich erstellt.")
+      this.onUpdated.emit(value)
     })
   }
 
   delete(event: Event) {
-    console.log(this.tour.id)
     const target = event.target as HTMLElement;
     let popconfirmRef = this.popconfirmService.open(PopconfirmComponent, target, {
       data: {
-        text: "Soll die Tour wirklich gelöscht werden?",
+        text: "Soll der Log wirklich gelöscht werden?",
         submitText: "Ja, löschen",
         cancelText: "Abbrechen"
       }
@@ -75,7 +72,7 @@ export class TourLogRowComponent {
             error: (e) => {
               console.log("Delete tour error:")
               console.log(e)
-              this.notificationService.notify("Tour could not be deleted.", "danger")
+              this.notificationService.notify("TourLog could not be deleted.", "danger")
             }
           })
       }

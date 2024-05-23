@@ -3,13 +3,10 @@
     <app-heading title="{{tour!.name}} : ({{tour!.from}} - {{tour!.to}})"></app-heading>
   </div>
 
-  <div class="tour-log-headline">
-    <h4>Tour Logs</h4>
-    <button type="button" (click)="add()" class="btn btn-primary" mdbRipple>log hinzufügen</button>
-  </div>
-  
+  <app-heading subtitle="Tour Logs" actionIcon="fas fa-plus" actionText="Log Hinzufügen" (actionClicked)="add()"></app-heading>
+
   <div class="mt-2">
-    <app-tour-logs [tour]="tour!"></app-tour-logs>
+    <app-tour-logs [tour]="tour!" [tourLogAdded]="tourLogAdded"></app-tour-logs>
   </div>
 </div>
 

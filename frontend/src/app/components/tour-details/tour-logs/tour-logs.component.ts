@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit} from '@angular/core';
 import {TourLogModel} from "../../../models/tour-log.model";
 import {TourModel} from "../../../models/tour.model";
 import {finalize} from "rxjs";
@@ -22,7 +22,7 @@ import {TourLogRowComponent} from "./tour-log-row/tour-log-row.component";
 })
 export class TourLogsComponent implements OnInit {
   @Input({required: true}) tour!: TourModel
-  
+  @Input() tourLogAdded = new EventEmitter<TourLogModel>()
 
   tourLogs: TourLogModel[] | undefined
   loading: boolean = false
@@ -32,6 +32,15 @@ export class TourLogsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchTourLogs()
+    this.tourLogAdded.subscribe({
+      next: (tl: TourLogModel) => {
+        this.tourLogs!.push(tl);
+      }
+    })
+  }
+
+  fetchTourLogs() {
     this.loading = true
     this.tourLogService.getAll(this.tour.id)
       .pipe(finalize(() => this.loading = false))
@@ -45,15 +54,14 @@ export class TourLogsComponent implements OnInit {
         }
       })
   }
+
   onDeleted(id: number) {
-    //this.tourLogs = this.tourLogs?.filter(t => t.id != id)
-    this.notificationService.notify("Die Tour wurde gelöscht.")
-    this.tourLogService.getAll(this.tour.id)
+    this.tourLogs = this.tourLogs?.filter(t => t.id != id)
+    this.notificationService.notify("Der Log wurde gelöscht.")
   }
 
-  onUpdated(tour: TourLogModel) {
-    //this.tourLogs = this.tourLogs?.map(t => t.id != t.id ? tour : t)
-    this.notificationService.notify("Die Tour wurde bearbeitet.")
-    this.tourLogService.getAll(this.tour.id)
+  onUpdated(tourLog: TourLogModel) {
+    this.tourLogs = this.tourLogs?.map(t => t.id != tourLog.id ? t : tourLog)
+    this.notificationService.notify("Der Log wurde bearbeitet.")
   }
 }

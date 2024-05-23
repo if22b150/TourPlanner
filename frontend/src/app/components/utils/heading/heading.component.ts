@@ -15,7 +15,7 @@ import {MdbButtonComponent} from "../mdb-button/mdb-button.component";
   styleUrl: './heading.component.scss'
 })
 export class HeadingComponent {
-  @Input({required: true}) title!: string;
+  @Input() title!: string;
   @Input() subtitle: string | undefined;
   @Input() actionText: string | undefined;
   @Input() actionIcon: string | undefined;

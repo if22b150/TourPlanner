@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {HeadingComponent} from "../utils/heading/heading.component";
 import {SpinnerComponent} from "../utils/spinner/spinner.component";
@@ -31,9 +31,10 @@ import { AddOrEditTourLogComponent } from './tour-logs/add-or-edit-tour-log/add-
 })
 export class TourDetailsComponent {
   tour: TourModel | undefined
-  urlTourId!: number;
+  urlTourId: number | undefined;
 
   tourLogs: TourLogModel[] | undefined
+  tourLogAdded = new EventEmitter<TourLogModel>()
   loading: boolean = false
 
   @Input()
@@ -71,15 +72,15 @@ export class TourDetailsComponent {
   }
 
   add() {
-    let modalRef = this.modalService.open(AddOrEditTourLogComponent)
-    modalRef.component.urlTourId = this.urlTourId;
+    let modalRef = this.modalService.open(AddOrEditTourLogComponent,
+      {
+        data: { tour: this.tour },
+      })
     modalRef.onClose.subscribe((value) => {
-      
       if(!value?.id)
         return;
 
-      this.tourLogs?.push(value)
-      this.tourLogService.getAll(this.urlTourId);
+      this.tourLogAdded.emit(value)
       this.notificationService.notify("Die Tour wurde erfolgreich erstellt.")
     })
   }

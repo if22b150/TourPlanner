@@ -1,31 +1,47 @@
-<app-modal (submitClicked)="submit()" title="Tour Log {{ tourLog ? 'editieren' : 'hinzufügen' }}" submitText="{{ tourLog ? 'Speichern' : 'Hinzufügen' }}"
-  closeText="Abbrechen" [loading]="loading">
+<app-modal (submitClicked)="submit()" title="Tour Log {{ tourLog ? 'bearbeiten' : 'hinzufügen' }}"
+           submitText="{{ tourLog ? 'Speichern' : 'Hinzufügen' }}"
+           closeText="Abbrechen" [loading]="loading">
 
   <div class="row g-3" [formGroup]="formGroup">
     <div class="col-sm-12 mb-2">
-        <div class="mb-4">
-            <app-form-input [id]="'date'" [label]="'Datum'" [controlName]="'date'" [formGroup]="formGroup"
-              [isRequired]="true"></app-form-input>
-          </div>
       <div class="mb-4">
-        <app-form-input [id]="'totalTime'" [label]="'Gesamtzeit'" [controlName]="'totalTime'" [formGroup]="formGroup"
-          [isRequired]="true"></app-form-input>
+        <mdb-form-control>
+          <input
+            mdbInput
+            [mdbDatepicker]="datepicker"
+            type="text"
+            class="form-control"
+            id="date"
+            formControlName="date"
+            (click)="datepicker.open()"
+          />
+          <label mdbLabel for="date" class="form-label">Datum *</label>
+          <mdb-datepicker-toggle [mdbDatepicker]="datepicker"></mdb-datepicker-toggle>
+          <mdb-datepicker #datepicker [format]="'dd.mm.yyyy'"></mdb-datepicker>
+          <mdb-error *ngIf="date?.invalid && (date?.dirty || date?.touched)">Ein gültiges Datum ist erforderlich.</mdb-error>
+        </mdb-form-control>
       </div>
       <div class="mb-4">
-        <app-form-input [id]="'totalDistance'" [label]="'Gesamte Entfernung'" [controlName]="'totalDistance'" [formGroup]="formGroup"
-          [isRequired]="true"></app-form-input>
+        <app-form-input [id]="'totalTime'" [label]="'Gesamtzeit (in h)'" type="number" [controlName]="'totalTime'" [formGroup]="formGroup"
+                        [isRequired]="true"></app-form-input>
       </div>
       <div class="mb-4">
-        <app-form-input [id]="'difficulty'" [label]="'Schwierigkeitsgrad'" [controlName]="'difficulty'" [formGroup]="formGroup"
-          [isRequired]="true"></app-form-input>
+        <app-form-input [id]="'totalDistance'" [label]="'Gesamte Entfernung (in km)'" type="number" suffix="km" [controlName]="'totalDistance'"
+                        [formGroup]="formGroup"
+                        [isRequired]="true"></app-form-input>
+      </div>
+      <div class="mb-4">
+        <app-form-input [id]="'difficulty'" [label]="'Schwierigkeitsgrad (1 - 10)'" type="number" suffix="von 10" [controlName]="'difficulty'"
+                        [formGroup]="formGroup"
+                        [isRequired]="true"></app-form-input>
       </div>
       <div class="mb-4">
         <app-form-input [id]="'rating'" [label]="'Bewertung'" [controlName]="'rating'"
-          [formGroup]="formGroup" placeholder="Zug,Auto,Bus,..." [isRequired]="true"></app-form-input>
+                        [formGroup]="formGroup" [isRequired]="true"></app-form-input>
       </div>
       <div>
         <app-text-area-input [id]="'comment'" [label]="'Kommentar'" [controlName]="'comment'"
-          [formGroup]="formGroup" [isRequired]="true"></app-text-area-input>
+                             [formGroup]="formGroup" [isRequired]="true"></app-text-area-input>
       </div>
     </div>
   </div>

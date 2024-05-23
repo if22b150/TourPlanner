@@ -2,16 +2,18 @@ import {Component, Input, OnInit} from '@angular/core';
 import {finalize} from "rxjs";
 import {NotificationService} from "../../../../services/notification.service";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgIf} from "@angular/common";
 import {MdbModalRef} from "mdb-angular-ui-kit/modal";
 import {ModalComponent} from "../../../utils/modal/modal.component";
 import {TourModel} from "../../../../models/tour.model";
 import { TourLogModel } from 'src/app/models/tour-log.model';
 import {FormInputComponent} from "../../../utils/form-input/form-input.component";
-import { TourService } from 'src/app/services/tour.service';
 import { TourLogService } from 'src/app/services/tour-log.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {TextAreaInputComponent} from "../../../utils/text-area-input/text-area-input.component";
+import {MdbFormsModule} from "mdb-angular-ui-kit/forms";
+import {MdbDatepickerModule} from "mdb-angular-ui-kit/datepicker";
+import {MdbValidationModule} from "mdb-angular-ui-kit/validation";
 
 @Component({
   selector: 'app-add-or-edit-tour-log',
@@ -20,19 +22,18 @@ import {TextAreaInputComponent} from "../../../utils/text-area-input/text-area-i
     ModalComponent,
     ReactiveFormsModule,
     FormInputComponent,
-    TextAreaInputComponent
+    TextAreaInputComponent,
+    MdbFormsModule,
+    MdbDatepickerModule,
+    MdbValidationModule,
+    NgIf
   ],
   templateUrl: './add-or-edit-tour-log.component.html',
   styleUrl: './add-or-edit-tour-log.component.scss'
 })
 export class AddOrEditTourLogComponent implements OnInit {
-  @Input() tour?: TourModel
-  @Input()
-  tourLog!: TourLogModel;
-
-  @Input()
-  urlTourId!: number;
-
+  @Input({required: true}) tour!: TourModel
+  @Input() tourLog?: TourLogModel;
 
   loading: boolean = false
 
@@ -42,13 +43,12 @@ export class AddOrEditTourLogComponent implements OnInit {
               private datePipe: DatePipe,
               private notificationService: NotificationService,
               private formBuilder: FormBuilder,
-              private tourService: TourService,
               private tourLogService: TourLogService
             ) {}
 
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
-      date: [this.tourLog?.date, Validators.required],
+      date: [this.tourLog?.date ? new Date(this.tourLog!.date) : null, Validators.required],
       totalTime: [this.tourLog?.totalTime, Validators.required],
       comment: [this.tourLog?.comment, Validators.required],
       difficulty: [this.tourLog?.difficulty, Validators.required],
@@ -73,7 +73,7 @@ export class AddOrEditTourLogComponent implements OnInit {
     let resource = this.formGroup.value
 
     this.loading = true
-    this.tourLogService.create(this.urlTourId, resource)
+    this.tourLogService.create(this.tour.id, resource)
       .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: (tourLog) => {
@@ -94,7 +94,7 @@ export class AddOrEditTourLogComponent implements OnInit {
     let resource = this.formGroup.value
 
     this.loading = true
-    this.tourLogService.update(this.urlTourId, this.tourLog.id, resource)
+    this.tourLogService.update(this.tour.id, this.tourLog!.id, resource)
       .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: (tourLog) => {
@@ -107,26 +107,26 @@ export class AddOrEditTourLogComponent implements OnInit {
   }
 
   get totalDistance(): FormControl | null {
-    return this.formGroup.get('name') as FormControl
+    return this.formGroup.get('totalDistance') as FormControl
   }
 
   get totalTime(): FormControl | null {
-    return this.formGroup.get('from') as FormControl
+    return this.formGroup.get('totalTime') as FormControl
   }
 
   get date(): FormControl | null {
-    return this.formGroup.get('to') as FormControl
+    return this.formGroup.get('date') as FormControl
   }
 
   get difficulty(): FormControl | null {
-    return this.formGroup.get('transportType') as FormControl
+    return this.formGroup.get('difficulty') as FormControl
   }
 
   get rating(): FormControl | null {
-    return this.formGroup.get('description') as FormControl
+    return this.formGroup.get('rating') as FormControl
   }
 
   get comment(): FormControl | null {
-    return this.formGroup.get('description') as FormControl
+    return this.formGroup.get('comment') as FormControl
   }
 }
