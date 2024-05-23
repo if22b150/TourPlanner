@@ -75,7 +75,11 @@ export class TourItemComponent {
     })
   }
 
-  getTransportations() {
-    return this.tour.transportType.split(',').map(t => t.trim())
+  protected readonly TourHelper = TourHelper;
+}
+
+export class TourHelper {
+  static getTourTransportations(tour: TourModel): string[] {
+    return tour.transportType.split(',').map(t => t.trim())
   }
 }

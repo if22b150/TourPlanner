@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {HeadingComponent} from "../utils/heading/heading.component";
 import {SpinnerComponent} from "../utils/spinner/spinner.component";
-import {TourItemComponent} from "../tours/tour-item/tour-item.component";
+import {TourHelper, TourItemComponent} from "../tours/tour-item/tour-item.component";
 import {TourModel} from "../../models/tour.model";
 import {TourLogModel} from "../../models/tour-log.model";
 import {Router} from "@angular/router";
@@ -88,4 +88,6 @@ export class TourDetailsComponent {
   handleInvalidTour() {
     this.router.navigate(['/tours']).then(() => this.notificationService.notify("Tour existiert nicht.", "danger"))
   }
+
+  protected readonly TourHelper = TourHelper;
 }

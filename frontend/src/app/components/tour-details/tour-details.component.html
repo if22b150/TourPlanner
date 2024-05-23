@@ -1,6 +1,10 @@
 <div *ngIf="!(tourService.loading$ | async) || (tourService.data$|async); else spinner">
-  <div class="heading" style="margin-bottom: 2em;">
+  <div class="mb-4">
     <app-heading title="{{tour!.name}} : ({{tour!.from}} - {{tour!.to}})"></app-heading>
+    <div class="d-flex gap-2 flex-wrap mt-2">
+      <span *ngFor="let transportation of TourHelper.getTourTransportations(tour!)" class="badge badge-primary">{{transportation}}</span>
+    </div>
+    <h6 class="mt-3">{{tour!.description}}</h6>
   </div>
 
   <app-heading subtitle="Tour Logs" actionIcon="fas fa-plus" actionText="Log Hinzufügen" (actionClicked)="add()"></app-heading>
