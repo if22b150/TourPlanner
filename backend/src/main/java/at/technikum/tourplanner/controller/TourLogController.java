@@ -1,6 +1,7 @@
 package at.technikum.tourplanner.controller;
 
 import at.technikum.tourplanner.service.TourLogService;
+import at.technikum.tourplanner.service.dto.TourDto;
 import at.technikum.tourplanner.service.dto.TourLogDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class TourLogController {
     @PostMapping
     public TourLogDto create(@PathVariable Long tourId, @Valid @RequestBody TourLogDto tourLog) {
         return tourLogService.createTourLog(tourLog, tourId);
+    }
+
+    @PutMapping("/{id}")
+    public TourLogDto update(@PathVariable Long tourId, @PathVariable Long id, @Valid @RequestBody TourLogDto tourDto) {
+        return tourLogService.updateTourLog(tourId, id, tourDto);
     }
 
     @DeleteMapping("/{id}")
