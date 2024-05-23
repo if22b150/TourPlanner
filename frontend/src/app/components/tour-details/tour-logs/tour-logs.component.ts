@@ -22,11 +22,12 @@ import {TourLogRowComponent} from "./tour-log-row/tour-log-row.component";
 })
 export class TourLogsComponent implements OnInit {
   @Input({required: true}) tour!: TourModel
+  
 
   tourLogs: TourLogModel[] | undefined
   loading: boolean = false
 
-  constructor(private tourLogService: TourLogService,
+  constructor(public tourLogService: TourLogService,
               private notificationService: NotificationService) {
   }
 
@@ -44,5 +45,15 @@ export class TourLogsComponent implements OnInit {
         }
       })
   }
+  onDeleted(id: number) {
+    //this.tourLogs = this.tourLogs?.filter(t => t.id != id)
+    this.notificationService.notify("Die Tour wurde gelöscht.")
+    this.tourLogService.getAll(this.tour.id)
+  }
 
+  onUpdated(tour: TourLogModel) {
+    //this.tourLogs = this.tourLogs?.map(t => t.id != t.id ? tour : t)
+    this.notificationService.notify("Die Tour wurde bearbeitet.")
+    this.tourLogService.getAll(this.tour.id)
+  }
 }

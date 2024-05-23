@@ -11,6 +11,7 @@ import {StarRatingComponent} from "../../../utils/star-rating/star-rating.compon
 import {filter, finalize} from "rxjs";
 import {PopconfirmComponent} from "../../../utils/popconfirm/popconfirm.component";
 import { AddOrEditTourLogComponent } from '../add-or-edit-tour-log/add-or-edit-tour-log.component';
+import { TourModel } from 'src/app/models/tour.model';
 
 @Component({
   selector: '[app-tour-log-row]',
@@ -25,8 +26,7 @@ import { AddOrEditTourLogComponent } from '../add-or-edit-tour-log/add-or-edit-t
   styleUrl: './tour-log-row.component.scss'
 })
 export class TourLogRowComponent {
-  @Input()
-  urlTourId!: number;
+  @Input() tour!: TourModel;
 
   @Input({required: true}) tourLog!: TourLogModel
   @Output() onDeleted = new EventEmitter<number>()
@@ -40,8 +40,8 @@ export class TourLogRowComponent {
   }
 
   edit() {
-    let modalRef = this.modalService.open(AddOrEditTourLogComponent)
-    modalRef.component.urlTourId = this.urlTourId;
+    
+    let modalRef = this.modalService.open(AddOrEditTourLogComponent, {data: {tourLog: this.tourLog, urlTourId: this.tour.id}})
     modalRef.onClose.subscribe((value) => {
       
       if(!value?.id)
@@ -54,6 +54,7 @@ export class TourLogRowComponent {
   }
 
   delete(event: Event) {
+    console.log(this.tour.id)
     const target = event.target as HTMLElement;
     let popconfirmRef = this.popconfirmService.open(PopconfirmComponent, target, {
       data: {
@@ -65,7 +66,7 @@ export class TourLogRowComponent {
     popconfirmRef.onConfirm.subscribe({
       next: () => {
         this.loading = true
-        this.tourLogService.delete(this.urlTourId, this.tourLog.id)
+        this.tourLogService.delete(this.tour.id, this.tourLog.id)
           .pipe(finalize(() => this.loading = false))
           .subscribe({
             next: () => {

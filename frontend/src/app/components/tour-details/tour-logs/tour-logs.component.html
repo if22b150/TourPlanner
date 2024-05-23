@@ -12,7 +12,8 @@
     
     </thead>
     <tbody *ngIf="!loading && tourLogs">
-      <tr app-tour-log-row *ngFor="let tourLog of tourLogs" [tourLog]="tourLog"></tr>
+      <tr app-tour-log-row *ngFor="let tourLog of tourLogs" [tourLog]="tourLog" [tour]="tour" (onDeleted)="onDeleted($event)"
+      (onUpdated)="onUpdated($event)"></tr>
     </tbody>
   </table>
 </div>

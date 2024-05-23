@@ -27,7 +27,8 @@ import {TextAreaInputComponent} from "../../../utils/text-area-input/text-area-i
 })
 export class AddOrEditTourLogComponent implements OnInit {
   @Input() tour?: TourModel
-  @Input() tourLog?: TourLogModel
+  @Input()
+  tourLog!: TourLogModel;
 
   @Input()
   urlTourId!: number;
@@ -93,7 +94,7 @@ export class AddOrEditTourLogComponent implements OnInit {
     let resource = this.formGroup.value
 
     this.loading = true
-    this.tourService.update(this.tour!.id, resource)
+    this.tourLogService.update(this.urlTourId, this.tourLog.id, resource)
       .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: (tourLog) => {
