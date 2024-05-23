@@ -8,6 +8,7 @@ import {TourService} from "../../services/tour.service";
 import {TourItemComponent} from "./tour-item/tour-item.component";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {SpinnerComponent} from "../utils/spinner/spinner.component";
+import {BreadcrumbService} from "../../services/breadcrumb.service";
 
 @Component({
   selector: 'app-tours',
@@ -28,7 +29,9 @@ export class ToursComponent {
 
   constructor(private notificationService: NotificationService,
               public tourService: TourService,
+              private breadcrumbService: BreadcrumbService,
               private modalService: MdbModalService) {
+    this.breadcrumbService.tour = null
   }
 
   ngOnInit() {

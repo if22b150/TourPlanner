@@ -13,6 +13,7 @@ import {filter, finalize} from "rxjs";
 import {TourLogService} from "../../services/tour-log.service";
 import {TourLogsComponent} from "./tour-logs/tour-logs.component";
 import { AddOrEditTourLogComponent } from './tour-logs/add-or-edit-tour-log/add-or-edit-tour-log.component';
+import {BreadcrumbService} from "../../services/breadcrumb.service";
 
 @Component({
   selector: 'app-tour-details',
@@ -49,7 +50,7 @@ export class TourDetailsComponent {
               private notificationService: NotificationService,
               private modalService: MdbModalService,
               public tourService: TourService,
-              private tourLogService: TourLogService
+              private breadcrumbService: BreadcrumbService,
   ) {
   }
 
@@ -66,7 +67,7 @@ export class TourDetailsComponent {
 
           this.tour = t
 
-          // this.breadcrumbService.customer = c
+          this.breadcrumbService.tour = t
         }
       })
   }

@@ -11,6 +11,7 @@ import {MdbNotificationService} from "mdb-angular-ui-kit/notification";
 import {environment} from "../environments/environment";
 import {HttpClientModule} from "@angular/common/http";
 import localeDe from '@angular/common/locales/de';
+import {BreadcrumbsComponent} from "./components/utils/breadcrumbs/breadcrumbs.component";
 
 export const ENVIRONMENT = new InjectionToken<{ [key: string]: any }>('environment')
 registerLocaleData(localeDe);
@@ -35,12 +36,13 @@ export class EnvironmentService {
   declarations: [
     AppComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        BreadcrumbsComponent
+    ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment },
     { provide: LOCALE_ID, useValue: 'de' },

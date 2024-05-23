@@ -1,5 +1,17 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a [routerLink]="'customers'">Customers</a></li>
+    <li class="breadcrumb-item">
+      <a routerLink="tours">Tours</a>
+    </li>
+
+    <ng-container *ngIf="breadcrumbService.tour$ | async as tour">
+      <li class="breadcrumb-item fst-italic">
+        {{ tour.name }}
+      </li>
+<!--      <li class="breadcrumb-item">-->
+<!--        <a class="text-link" routerLink="tours/{{tour.id}}/machines">Machines</a>-->
+<!--      </li>-->
+
+    </ng-container>
   </ol>
 </nav>
