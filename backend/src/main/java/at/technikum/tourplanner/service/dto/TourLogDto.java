@@ -20,7 +20,6 @@ public class TourLogDto {
     private Long id;
 
     @NotNull(message = "Date is required.")
-    @JsonFormat(pattern="dd.MM.yyyy HH:mm:ss")
     private Date date;
 
     @NotBlank(message = "Comment is required.")
@@ -40,8 +39,8 @@ public class TourLogDto {
     private Double totalTime;
 
     @NotNull(message = "Rating is required.")
-    @Min(value = 1, message = "Difficulty must be >= 1.")
-    @Max(value = 5, message = "Difficulty must be <= 5.")
+    @Min(value = 1, message = "Rating must be >= 1.")
+    @Max(value = 5, message = "Rating must be <= 5.")
     private Integer rating;
 
     private TourDto tour;
