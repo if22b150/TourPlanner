@@ -3,7 +3,11 @@
     <app-heading title="{{tour!.name}} : ({{tour!.from}} - {{tour!.to}})"></app-heading>
   </div>
 
-  <h4>Tour Logs</h4>
+  <div class="tour-log-headline">
+    <h4>Tour Logs</h4>
+    <button type="button" (click)="add()" class="btn btn-primary" mdbRipple>log hinzufügen</button>
+  </div>
+  
   <div class="mt-2">
     <app-tour-logs [tour]="tour!"></app-tour-logs>
   </div>
