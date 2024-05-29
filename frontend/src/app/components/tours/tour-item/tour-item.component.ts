@@ -8,9 +8,10 @@ import {AddOrEditTourComponent} from '../add-or-edit-tour/add-or-edit-tour.compo
 import {MdbButtonComponent} from "../../utils/mdb-button/mdb-button.component";
 import {MdbPopconfirmService} from "mdb-angular-ui-kit/popconfirm";
 import {PopconfirmComponent} from "../../utils/popconfirm/popconfirm.component";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {HighlightTextPipe} from "../../../pipes/highlight-text.pipe";
+import {StarRatingComponent} from "../../utils/star-rating/star-rating.component";
 
 @Component({
   selector: 'app-tour-item',
@@ -19,7 +20,9 @@ import {HighlightTextPipe} from "../../../pipes/highlight-text.pipe";
     MdbButtonComponent,
     NgForOf,
     RouterLink,
-    HighlightTextPipe
+    HighlightTextPipe,
+    StarRatingComponent,
+    NgIf
   ],
   templateUrl: './tour-item.component.html',
   styleUrl: './tour-item.component.scss'

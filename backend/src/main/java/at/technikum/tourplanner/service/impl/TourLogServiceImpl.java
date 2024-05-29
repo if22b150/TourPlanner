@@ -9,11 +9,13 @@ import at.technikum.tourplanner.service.dto.TourLogDto;
 import at.technikum.tourplanner.service.TourLogService;
 import at.technikum.tourplanner.service.mapper.TourLogMapper;
 import at.technikum.tourplanner.service.mapper.TourMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component
 public class TourLogServiceImpl implements TourLogService {
     @Autowired
@@ -28,6 +30,7 @@ public class TourLogServiceImpl implements TourLogService {
     @Override
     public TourLogDto createTourLog(TourLogDto tourLogDto, Long tourId) {
         TourEntity tourEntity = tourRepository.getReferenceById(tourId);
+        log.info("Log");
         TourLogEntity entity = TourLogEntity.builder()
                 .tour(tourEntity)
                 .comment(tourLogDto.getComment())
