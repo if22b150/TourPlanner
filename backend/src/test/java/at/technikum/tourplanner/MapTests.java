@@ -1,6 +1,7 @@
 package at.technikum.tourplanner;
 
 import at.technikum.tourplanner.service.MapApi;
+import at.technikum.tourplanner.service.impl.RouteInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,11 +23,11 @@ public class MapTests {
         System.out.println(coordinates1);
         // start: 16.381029,48.235378
         // end: 16.392599,48.22038
-        List<double[]> routes = mapApi.searchDirection(coordinates1, coordinates2);
+        RouteInfo routeInfo = mapApi.searchDirection(coordinates1, coordinates2);
 
         AtomicInteger i = new AtomicInteger();
         StringBuffer sb = new StringBuffer();
-        routes.forEach(r -> {
+        routeInfo.getCoordinates().forEach(r -> {
             if (i.get() > 0) {
                 sb.append(";");
             }
@@ -42,7 +43,7 @@ public class MapTests {
         System.out.println();
         System.out.printf("start: %s\n", coordinates1);
         System.out.printf("end: %s\n", coordinates2);
-        double[] center = calculateMapCenter(routes);
+        double[] center = calculateMapCenter(routeInfo.getCoordinates());
         System.out.printf("center: %f, %f", center[0], center[1]);
 
 

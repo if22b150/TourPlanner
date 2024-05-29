@@ -1,14 +1,17 @@
 package at.technikum.tourplanner.service.impl;
 
 import at.technikum.tourplanner.persistence.repository.TourLogRepository;
+import at.technikum.tourplanner.service.MapApi;
 import at.technikum.tourplanner.service.dto.TourDto;
 import at.technikum.tourplanner.persistence.entity.TourEntity;
 import at.technikum.tourplanner.service.mapper.TourMapper;
 import at.technikum.tourplanner.persistence.repository.TourRepository;
 import at.technikum.tourplanner.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Comparator;
 import java.util.List;
@@ -23,16 +26,29 @@ public class TourServiceImpl implements TourService {
     private TourMapper tourMapper;
     @Autowired
     private TourLogRepository tourLogRepository;
+    @Autowired
+    private MapApi mapApi;
 
     @Override
     public TourDto createTour(TourDto tourDto) {
+        String startCoordinate = mapApi.searchAddress(tourDto.getFrom());
+        if (startCoordinate == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "From location not found");
+        }
+        String endCoordinate = mapApi.searchAddress(tourDto.getTo());
+        if (endCoordinate == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "To location not found");
+        }
+
+        RouteInfo route = mapApi.searchDirection(startCoordinate, endCoordinate, tourDto.getTransportType());
+
         TourEntity entity = TourEntity.builder()
                 .name(tourDto.getName())
                 .description(tourDto.getDescription())
                 .from(tourDto.getFrom())
                 .to(tourDto.getTo())
-                .distance(tourDto.getDistance())
-                .estimatedTime(tourDto.getEstimatedTime())
+                .distance(route.getDistance())
+                .estimatedTime(route.getDuration())
                 .transportType(tourDto.getTransportType())
                 .imagePath(tourDto.getImagePath())
                 .build();

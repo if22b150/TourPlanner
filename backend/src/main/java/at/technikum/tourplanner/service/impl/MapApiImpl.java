@@ -23,21 +23,37 @@ public class MapApiImpl implements MapApi {
                 "https://api.openrouteservice.org/geocode/search?boundary.country=AT&api_key=" + API_KEY + "&text=" + text,
                 String.class);
 
+        JSONArray features = new JSONObject(response.getBody()).getJSONArray("features");
+        if (features.length() < 1) {
+            return null;
+        }
         String coordinate = response.getBody().substring(response.getBody().indexOf("coordinates") + 14, response.getBody().indexOf("properties") - 4);
         System.out.println(response);
         return coordinate;
     }
 
     @Override
-    public List<double[]> searchDirection(String start, String end) {
-        String[] profiles = {"driving-car", "cycling-regular", "foot-walking"};
-        String profile = profiles[2];
+    public RouteInfo searchDirection(String start, String end, String transportType) {
+        String profile;
+        switch (transportType) {
+            case "Auto":
+                profile = "driving-car";
+                break;
+            case "Fahrrad":
+                profile = "cycling-regular";
+                break;
+            default:
+                profile = "foot-walking";
+        }
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(
                 "https://api.openrouteservice.org/v2/directions/" + profile + "?api_key=" + API_KEY + "&start=" + start + "&end=" + end,
                 String.class);
 
         List<double[]> routeCoordinates = new ArrayList<>();
+        double duration = 0;
+        double distance = 0;
+
         if (response.getStatusCode() == HttpStatus.OK) {
             JSONObject jsonResponse = new JSONObject(response.getBody());
             System.out.println(jsonResponse);
@@ -46,6 +62,12 @@ public class MapApiImpl implements MapApi {
             if (features.length() < 1) {
                 return null;
             }
+
+            JSONObject properties = features.getJSONObject(0).getJSONObject("properties");
+            JSONObject summary = properties.getJSONObject("summary");
+            duration = summary.getDouble("duration");
+            distance = summary.getDouble("distance");
+
             JSONObject geometry = features.getJSONObject(0).getJSONObject("geometry");
             JSONArray coordinates = geometry.getJSONArray("coordinates");
 
@@ -57,7 +79,7 @@ public class MapApiImpl implements MapApi {
                 routeCoordinates.add(new double[]{latitude, longitude});
             }
         }
-        return routeCoordinates;
+        return new RouteInfo(routeCoordinates, duration, distance);
     }
 
     @Override
