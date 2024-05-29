@@ -3,10 +3,13 @@
                (actionClicked)="add()"></app-heading>
 </div>
 
+<app-text-search (onChange)="filterTours($event)"></app-text-search>
+
 <div *ngIf="(tours && tours.length > 0) || (tours && tours.length == 0 && !(tourService.loading$ | async)); else spinner"
      class="mt-2">
-  <app-tour-item *ngFor="let tour of tours"
+  <app-tour-item *ngFor="let tour of filteredTours"
                  [tour]="tour"
+                 [searchText]="searchText"
                  (onDeleted)="onDeleted($event)"
                  (onUpdated)="onUpdated($event)"></app-tour-item>
 </div>

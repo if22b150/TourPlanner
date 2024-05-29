@@ -7,6 +7,8 @@ import {NotificationService} from "../../../services/notification.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {SpinnerComponent} from "../../utils/spinner/spinner.component";
 import {TourLogRowComponent} from "./tour-log-row/tour-log-row.component";
+import {TourHelper} from "../../tours/tour-item/tour-item.component";
+import {TextSearchComponent} from "../../utils/text-search/text-search.component";
 
 @Component({
   selector: 'app-tour-logs',
@@ -15,7 +17,8 @@ import {TourLogRowComponent} from "./tour-log-row/tour-log-row.component";
     NgIf,
     SpinnerComponent,
     TourLogRowComponent,
-    NgForOf
+    NgForOf,
+    TextSearchComponent
   ],
   templateUrl: './tour-logs.component.html',
   styleUrl: './tour-logs.component.scss'
@@ -25,6 +28,8 @@ export class TourLogsComponent implements OnInit {
   @Input() tourLogAdded = new EventEmitter<TourLogModel>()
 
   tourLogs: TourLogModel[] | undefined
+  filteredTourLogs: TourLogModel[] | undefined
+  searchText: string | null = null
   loading: boolean = false
 
   constructor(public tourLogService: TourLogService,
@@ -47,6 +52,7 @@ export class TourLogsComponent implements OnInit {
       .subscribe({
         next: (tourLogs: TourLogModel[]) => {
           this.tourLogs = tourLogs;
+          this.filteredTourLogs = tourLogs
         },
         error: (e) => {
           console.log(e);
@@ -63,5 +69,15 @@ export class TourLogsComponent implements OnInit {
   onUpdated(tourLog: TourLogModel) {
     this.tourLogs = this.tourLogs?.map(t => t.id != tourLog.id ? t : tourLog)
     this.notificationService.notify("Der Log wurde bearbeitet.")
+  }
+
+  filterTourLogs(searchText: string | null) {
+    if(!searchText || searchText == "") {
+      this.filteredTourLogs = this.tourLogs
+    }
+
+    this.searchText = searchText
+
+    this.filteredTourLogs = this.tourLogs?.filter(t => TourHelper.containsSubstring(t.comment, searchText!))
   }
 }

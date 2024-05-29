@@ -5,10 +5,11 @@ import {MdbModalService} from "mdb-angular-ui-kit/modal";
 import {AddOrEditTourComponent} from "./add-or-edit-tour/add-or-edit-tour.component";
 import {TourModel} from "../../models/tour.model";
 import {TourService} from "../../services/tour.service";
-import {TourItemComponent} from "./tour-item/tour-item.component";
+import {TourHelper, TourItemComponent} from "./tour-item/tour-item.component";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {SpinnerComponent} from "../utils/spinner/spinner.component";
 import {BreadcrumbService} from "../../services/breadcrumb.service";
+import {TextSearchComponent} from "../utils/text-search/text-search.component";
 
 @Component({
   selector: 'app-tours',
@@ -19,13 +20,16 @@ import {BreadcrumbService} from "../../services/breadcrumb.service";
     NgForOf,
     NgIf,
     AsyncPipe,
-    SpinnerComponent
+    SpinnerComponent,
+    TextSearchComponent
   ],
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss'
 })
 export class ToursComponent {
-  tours: TourModel[] | undefined;
+  tours: TourModel[] | undefined
+  filteredTours: TourModel[] | undefined
+  searchText: string | null = null
 
   constructor(private notificationService: NotificationService,
               public tourService: TourService,
@@ -39,6 +43,7 @@ export class ToursComponent {
       .subscribe({
         next: (data: TourModel[]) => {
           this.tours = data;
+          this.filteredTours = data
         }
       })
   }
@@ -65,5 +70,15 @@ export class ToursComponent {
     this.tours = this.tours?.map(t => t.id != t.id ? tour : t)
     this.notificationService.notify("Die Tour wurde bearbeitet.")
     this.tourService.getAll()
+  }
+
+  filterTours(searchText: string | null) {
+    if(!searchText || searchText == "") {
+      this.filteredTours = this.tours
+    }
+
+    this.searchText = searchText
+
+    this.filteredTours = this.tours?.filter(t => TourHelper.containsSubstring(TourHelper.getTourTitle(t), searchText!))
   }
 }

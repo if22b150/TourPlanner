@@ -1,5 +1,5 @@
 <td>{{tourLog.date | date : 'dd.MM.YYYY'}}</td>
-<td>{{tourLog.comment}}</td>
+<td [innerHTML]="(tourLog.comment) | highlightText : searchText"></td>
 <td>{{tourLog.totalDistance | number}} km</td>
 <td>{{tourLog.totalTime | number}} h</td>
 <td>{{tourLog.difficulty}}</td>

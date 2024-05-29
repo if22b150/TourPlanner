@@ -10,6 +10,7 @@ import {MdbPopconfirmService} from "mdb-angular-ui-kit/popconfirm";
 import {PopconfirmComponent} from "../../utils/popconfirm/popconfirm.component";
 import {NgForOf} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {HighlightTextPipe} from "../../../pipes/highlight-text.pipe";
 
 @Component({
   selector: 'app-tour-item',
@@ -17,13 +18,15 @@ import {RouterLink} from "@angular/router";
   imports: [
     MdbButtonComponent,
     NgForOf,
-    RouterLink
+    RouterLink,
+    HighlightTextPipe
   ],
   templateUrl: './tour-item.component.html',
   styleUrl: './tour-item.component.scss'
 })
 export class TourItemComponent {
   @Input({required: true}) tour!: TourModel;
+  @Input() searchText: string | null = null;
 
   @Output() onDeleted = new EventEmitter<number>()
   @Output() onUpdated = new EventEmitter<TourModel>()
@@ -81,5 +84,13 @@ export class TourItemComponent {
 export class TourHelper {
   static getTourTransportations(tour: TourModel): string[] {
     return tour.transportType.split(',').map(t => t.trim())
+  }
+
+  static getTourTitle(tour: TourModel): string {
+    return `${tour.name}: (${tour.from} - ${tour.to})`
+  }
+
+  static containsSubstring(text: string, sub: string): boolean {
+    return text.toLowerCase().includes(sub.toLowerCase())
   }
 }

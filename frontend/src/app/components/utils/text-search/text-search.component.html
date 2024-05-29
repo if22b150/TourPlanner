@@ -1,0 +1,6 @@
+<div class="input-group mb-3">
+  <span class="input-group-text border-0" id="search-addon"><i class="fas fa-search"></i></span>
+  <input type="search" class="form-control rounded" placeholder="Suchen" aria-label="Suchen"
+         [(ngModel)]="searchText" (ngModelChange)="onChange.emit(searchText?.trim())"
+         aria-describedby="search-addon" />
+</div>

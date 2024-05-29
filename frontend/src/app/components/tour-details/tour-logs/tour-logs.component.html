@@ -1,4 +1,6 @@
-<div class="table-responsive" >
+<app-text-search (onChange)="filterTourLogs($event)"></app-text-search>
+
+<div class="table-responsive">
   <table class="table table-striped">
     <thead>
     <tr>
@@ -9,11 +11,13 @@
       <th scope="col">Schwierigkeit</th>
       <th scope="col">Bewertung</th>
     </tr>
-    
+
     </thead>
     <tbody *ngIf="!loading && tourLogs">
-      <tr app-tour-log-row *ngFor="let tourLog of tourLogs" [tourLog]="tourLog" [tour]="tour" (onDeleted)="onDeleted($event)"
-      (onUpdated)="onUpdated($event)"></tr>
+    <tr app-tour-log-row *ngFor="let tourLog of filteredTourLogs" [tourLog]="tourLog" [tour]="tour"
+        [searchText]="searchText"
+        (onDeleted)="onDeleted($event)"
+        (onUpdated)="onUpdated($event)"></tr>
     </tbody>
   </table>
 </div>

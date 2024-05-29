@@ -12,6 +12,7 @@ import {filter, finalize} from "rxjs";
 import {PopconfirmComponent} from "../../../utils/popconfirm/popconfirm.component";
 import {AddOrEditTourLogComponent} from '../add-or-edit-tour-log/add-or-edit-tour-log.component';
 import {TourModel} from 'src/app/models/tour.model';
+import {HighlightTextPipe} from "../../../../pipes/highlight-text.pipe";
 
 @Component({
   selector: '[app-tour-log-row]',
@@ -21,15 +22,17 @@ import {TourModel} from 'src/app/models/tour.model';
     MdbTooltipModule,
     DecimalPipe,
     StarRatingComponent,
-    DatePipe
+    DatePipe,
+    HighlightTextPipe
   ],
   templateUrl: './tour-log-row.component.html',
   styleUrl: './tour-log-row.component.scss'
 })
 export class TourLogRowComponent {
-  @Input() tour!: TourModel;
+  @Input() tour!: TourModel
 
   @Input({required: true}) tourLog!: TourLogModel
+  @Input() searchText: string | null = null
   @Output() onDeleted = new EventEmitter<number>()
   @Output() onUpdated = new EventEmitter<TourLogModel>()
   loading: boolean = false
