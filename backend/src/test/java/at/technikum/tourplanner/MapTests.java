@@ -23,7 +23,7 @@ public class MapTests {
         System.out.println(coordinates1);
         // start: 16.381029,48.235378
         // end: 16.392599,48.22038
-        RouteInfo routeInfo = mapApi.searchDirection(coordinates1, coordinates2);
+        RouteInfo routeInfo = mapApi.searchDirection(coordinates1, coordinates2, "Zu Fuß");
 
         AtomicInteger i = new AtomicInteger();
         StringBuffer sb = new StringBuffer();

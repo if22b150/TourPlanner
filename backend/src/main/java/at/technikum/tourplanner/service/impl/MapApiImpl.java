@@ -1,6 +1,8 @@
 package at.technikum.tourplanner.service.impl;
 
 import at.technikum.tourplanner.service.MapApi;
+import at.technikum.tourplanner.service.map.MapCreator;
+import at.technikum.tourplanner.service.map.TileCalculator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -8,8 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static at.technikum.tourplanner.service.map.TileCalculator.latlon2Tile;
 
 @Component
 public class MapApiImpl implements MapApi {
@@ -28,7 +33,8 @@ public class MapApiImpl implements MapApi {
             return null;
         }
         String coordinate = response.getBody().substring(response.getBody().indexOf("coordinates") + 14, response.getBody().indexOf("properties") - 4);
-        System.out.println(response);
+        System.out.println(coordinate);
+
         return coordinate;
     }
 
@@ -78,13 +84,35 @@ public class MapApiImpl implements MapApi {
                 double latitude = coord.getDouble(1);
                 routeCoordinates.add(new double[]{latitude, longitude});
             }
+
+            JSONArray bbox = features.getJSONObject(0).getJSONArray("bbox");
+            this.getMap(routeCoordinates, Double.parseDouble(start.split(",")[0]), Double.parseDouble(start.split(",")[1]),Double.parseDouble( end.split(",")[0]), Double.parseDouble(end.split(",")[1]), bbox.getDouble(0),bbox.getDouble(1),bbox.getDouble(2),bbox.getDouble(3),18);
         }
+
         return new RouteInfo(routeCoordinates, duration, distance);
     }
 
-    @Override
-    public void getMap() {
-        // TODO implement me
+//    @Override
+    public void getMap(List<double[]> routeCoordinates, Double startLat, Double startLon, Double endLat, Double endLon, Double bbox1, Double bbox2, Double bbox3, Double bbox4, Integer zoom) {
+        // Define the bounding box and zoom level
+//        MapCreator mapCreator = new MapCreator( 16.375941, 48.239177, 16.378488, 48.240183);
+        MapCreator mapCreator = new MapCreator( bbox1, bbox2, bbox3, bbox4 );
+        mapCreator.setZoom(zoom);
+        mapCreator.setRouteCoordinates(routeCoordinates);
+        mapCreator.getMarkers().add( new MapCreator.GeoCoordinate(startLon, startLat) );
+        mapCreator.getMarkers().add( new MapCreator.GeoCoordinate(endLon, endLat) );
+
+        try {
+            mapCreator.generateImage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            mapCreator.saveImage("FHTW-map.png");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }
 
