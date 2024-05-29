@@ -17,8 +17,16 @@
                         [isRequired]="true"></app-form-input>
       </div>
       <div class="mb-4">
-        <app-form-input [id]="'transportType'" [label]="'Transportmittel'" [controlName]="'transportType'"
-                        [formGroup]="formGroup" placeholder="Zug,Auto,Bus,..." [isRequired]="true"></app-form-input>
+<!--        <app-form-input [id]="'transportType'" [label]="'Transportmittel'" [controlName]="'transportType'"-->
+<!--                        [formGroup]="formGroup" placeholder="Zug,Auto,Bus,..." [isRequired]="true"></app-form-input>-->
+        <mdb-form-control>
+          <mdb-select formControlName="transportType">
+            <mdb-option *ngFor="let option of transportOptions" [value]="option">
+              {{option}}
+            </mdb-option>
+          </mdb-select>
+          <label mdbLabel class="form-label">Transportmittel</label>
+        </mdb-form-control>
       </div>
       <div>
         <app-text-area-input [id]="'description'" [label]="'Beschreibung'" [controlName]="'description'"

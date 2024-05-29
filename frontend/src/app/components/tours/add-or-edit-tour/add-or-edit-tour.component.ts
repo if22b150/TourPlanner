@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {finalize} from "rxjs";
 import {NotificationService} from "../../../services/notification.service";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgForOf} from "@angular/common";
 import {MdbModalRef} from "mdb-angular-ui-kit/modal";
 import {ModalComponent} from "../../utils/modal/modal.component";
 import {TourModel} from "../../../models/tour.model";
@@ -10,6 +10,8 @@ import {FormInputComponent} from "../../utils/form-input/form-input.component";
 import { TourService } from 'src/app/services/tour.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {TextAreaInputComponent} from "../../utils/text-area-input/text-area-input.component";
+import {MdbFormsModule} from "mdb-angular-ui-kit/forms";
+import {MdbSelectModule} from "mdb-angular-ui-kit/select";
 
 @Component({
   selector: 'app-add-or-edit-tour',
@@ -19,7 +21,10 @@ import {TextAreaInputComponent} from "../../utils/text-area-input/text-area-inpu
     ModalComponent,
     ReactiveFormsModule,
     FormInputComponent,
-    TextAreaInputComponent
+    TextAreaInputComponent,
+    MdbFormsModule,
+    MdbSelectModule,
+    NgForOf
   ],
   templateUrl: './add-or-edit-tour.component.html',
   styleUrl: './add-or-edit-tour.component.scss'
@@ -28,6 +33,7 @@ export class AddOrEditTourComponent implements OnInit {
   @Input() tour?: TourModel
 
   loading: boolean = false
+  transportOptions = ["Zu Fuß", "Fahrrad", "Auto"]
 
   formGroup!: FormGroup
 
@@ -56,6 +62,7 @@ export class AddOrEditTourComponent implements OnInit {
   }
 
   create() {
+    console.log(this.transportType?.value)
     this.formGroup.markAllAsTouched();
 
     if(this.formGroup.invalid)

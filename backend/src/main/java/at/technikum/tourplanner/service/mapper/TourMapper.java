@@ -18,6 +18,8 @@ public class TourMapper extends AbstractMapper<TourEntity, TourDto> {
                 .estimatedTime(source.getEstimatedTime())
                 .transportType(source.getTransportType())
                 .imagePath(source.getImagePath())
+                .popularity(source.getTourLogs() != null ? source.getTourLogs().size() : 0)
+                .averageRating(source.getAverageRating())
                 .build();
     }
 }

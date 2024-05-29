@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "tours")
 @Data
@@ -39,4 +42,19 @@ public class TourEntity {
 
     @Column(name = "image_path")
     private String imagePath;
+
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TourLogEntity> tourLogs;
+
+    public int getAverageRating() {
+        if (tourLogs == null || tourLogs.isEmpty()) {
+            return 0;
+        }
+
+        int totalRating = tourLogs.stream()
+                .mapToInt(TourLogEntity::getRating)
+                .sum();
+
+        return totalRating / tourLogs.size();
+    }
 }
