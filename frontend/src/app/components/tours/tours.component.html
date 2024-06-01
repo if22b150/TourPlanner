@@ -1,12 +1,20 @@
-<div class="heading" style="margin-bottom: 2em;">
+<div class="heading mb-4">
   <app-heading title="Deine Touren" actionText="Tour hinzufügen" actionIcon="fas fa-plus"
                (actionClicked)="add()"></app-heading>
 </div>
 
+<div class="d-flex justify-content-end mb-4 gap-4">
+  <app-mdb-button text="Alle Touren exportieren" (onClick)="exportCsv()" [outlined]="true"
+                  iconClass="fas fa-file-export" [loading]="exportLoading"></app-mdb-button>
+  <app-mdb-button text="Touren importieren" (onClick)="importCsv()" [outlined]="true"
+                  iconClass="fas fa-file-import"></app-mdb-button>
+</div>
+
 <app-text-search (onChange)="filterTours($event)"></app-text-search>
 
-<div *ngIf="(tours && tours.length > 0) || (tours && tours.length == 0 && !(tourService.loading$ | async)); else spinner"
-     class="mt-2">
+<div
+  *ngIf="(tours && tours.length > 0) || (tours && tours.length == 0 && !(tourService.loading$ | async)); else spinner"
+  class="mt-2">
   <app-tour-item *ngFor="let tour of filteredTours"
                  [tour]="tour"
                  [searchText]="searchText"

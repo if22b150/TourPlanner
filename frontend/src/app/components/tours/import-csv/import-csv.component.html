@@ -1,0 +1,8 @@
+<app-modal (submitClicked)="submit()" title="Touren importieren"
+           submitText="{{ 'Importieren' }}"
+           closeText="Abbrechen" [loading]="loading">
+
+  <label class="form-label" for="uploadFile">Touren CSV Datei</label>
+  <input type="file" class="form-control" id="uploadFile" (change)="onFileSelected($event)" />
+
+</app-modal>

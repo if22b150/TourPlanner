@@ -86,7 +86,7 @@ public class MapApiImpl implements MapApi {
             }
 
             JSONArray bbox = features.getJSONObject(0).getJSONArray("bbox");
-            this.getMap(routeCoordinates, Double.parseDouble(start.split(",")[0]), Double.parseDouble(start.split(",")[1]),Double.parseDouble( end.split(",")[0]), Double.parseDouble(end.split(",")[1]), bbox.getDouble(0),bbox.getDouble(1),bbox.getDouble(2),bbox.getDouble(3),18);
+//            this.getMap(routeCoordinates, Double.parseDouble(start.split(",")[0]), Double.parseDouble(start.split(",")[1]),Double.parseDouble( end.split(",")[0]), Double.parseDouble(end.split(",")[1]), bbox.getDouble(0),bbox.getDouble(1),bbox.getDouble(2),bbox.getDouble(3),18);
         }
 
         return new RouteInfo(routeCoordinates, duration, distance);

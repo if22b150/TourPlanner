@@ -10,6 +10,9 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {SpinnerComponent} from "../utils/spinner/spinner.component";
 import {BreadcrumbService} from "../../services/breadcrumb.service";
 import {TextSearchComponent} from "../utils/text-search/text-search.component";
+import {finalize} from "rxjs";
+import {MdbButtonComponent} from "../utils/mdb-button/mdb-button.component";
+import {ImportCsvComponent} from "./import-csv/import-csv.component";
 
 @Component({
   selector: 'app-tours',
@@ -21,7 +24,8 @@ import {TextSearchComponent} from "../utils/text-search/text-search.component";
     NgIf,
     AsyncPipe,
     SpinnerComponent,
-    TextSearchComponent
+    TextSearchComponent,
+    MdbButtonComponent
   ],
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss'
@@ -30,6 +34,8 @@ export class ToursComponent {
   tours: TourModel[] | undefined
   filteredTours: TourModel[] | undefined
   searchText: string | null = null
+  exportLoading: boolean = false
+  importLoading: boolean = false
 
   constructor(private notificationService: NotificationService,
               public tourService: TourService,
@@ -80,5 +86,36 @@ export class ToursComponent {
     this.searchText = searchText
 
     this.filteredTours = this.tours?.filter(t => TourHelper.containsSubstring(TourHelper.getTourTitle(t), searchText!))
+  }
+
+  exportCsv() {
+    this.exportLoading = true
+    this.tourService.exportToCsv()
+      .pipe(finalize(() => this.exportLoading = false))
+      .subscribe({
+        next: (blob) => {
+          const url = window.URL.createObjectURL(new Blob([blob]));
+          const link = document.createElement('a');
+          link.href = url;
+
+          // Set the filename for the downloaded file
+          link.setAttribute('download', 'tours.csv');
+
+          // Append the anchor element to the body and trigger the click event
+          document.body.appendChild(link);
+          link.click();
+
+          // Remove the anchor element
+          document.body.removeChild(link);
+        }
+      })
+  }
+
+  importCsv() {
+    let modalRef = this.modalService.open(ImportCsvComponent)
+    modalRef.onClose.subscribe(() => {
+      this.tourService.getAll();
+      this.notificationService.notify("Die Touren wurden erfolgreich importiert.")
+    })
   }
 }
