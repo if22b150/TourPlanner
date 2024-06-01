@@ -21,7 +21,7 @@ public class TourLogController {
     private TourLogService tourLogService;
 
     @GetMapping
-    public List<TourLogDto> getAll(@PathVariable Long tourId) {
+    public List<TourLogDto> getAllByTour(@PathVariable Long tourId) {
         return tourLogService.getAllTourLogsByTour(tourId);
     }
 
