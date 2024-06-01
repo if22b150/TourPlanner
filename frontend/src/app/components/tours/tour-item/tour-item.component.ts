@@ -38,6 +38,7 @@ export class TourItemComponent {
   @Output() onUpdated = new EventEmitter<TourModel>()
 
   loading: boolean = false;
+  exportLoading: boolean = false
 
   constructor(private notificationService: NotificationService,
               public tourService: TourService,
@@ -82,6 +83,29 @@ export class TourItemComponent {
 
       this.onUpdated.emit(value)
     })
+  }
+
+  export() {
+    this.exportLoading = true
+    this.tourService.exportToCsv(this.tour.id)
+      .pipe(finalize(() => this.exportLoading = false))
+      .subscribe({
+        next: (blob) => {
+          const url = window.URL.createObjectURL(new Blob([blob]));
+          const link = document.createElement('a');
+          link.href = url;
+
+          // Set the filename for the downloaded file
+          link.setAttribute('download', 'tour_' + this.tour.id + '.csv');
+
+          // Append the anchor element to the body and trigger the click event
+          document.body.appendChild(link);
+          link.click();
+
+          // Remove the anchor element
+          document.body.removeChild(link);
+        }
+      })
   }
 
   protected readonly TourHelper = TourHelper;

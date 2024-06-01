@@ -159,6 +159,51 @@ public class TourController {
         writer.close();
     }
 
+    @GetMapping("/{id}/export/csv")
+    public void exportTourCsv(HttpServletResponse response, @PathVariable Long id) throws IOException {
+        TourEntity tour = tourService.getTourById(id);
+
+        // Set response content type
+        response.setContentType("text/csv");
+
+        // Set response header for file attachment
+        response.setHeader("Content-Disposition", "attachment; filename=\"tour_" + tour.getId() + ".csv\"");
+
+        response.setCharacterEncoding("UTF-8");
+        // Get PrintWriter for writing CSV content
+        PrintWriter writer =  new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8));
+
+        // Write tours section header
+        writer.println("Tour");
+        writer.println(
+            tour.getName() + ";;;" +
+            tour.getDescription() + ";;;" +
+            tour.getFrom() + ";;;" +
+            tour.getTo() + ";;;" +
+            tour.getTransportType() + ";;;" +
+            tour.getDistance() + ";;;" + // Convert meters to kilometers
+            tour.getEstimatedTime() + ";;;" + // Convert seconds to hours
+            tour.getImagePath()
+        );
+
+        // Write tour logs for the current tour
+        writer.println("TourLogs");
+        for (TourLogEntity log : tour.getTourLogs()) {
+            writer.println(
+                log.getDate() + ";;;" +
+                log.getComment() + ";;;" +
+                log.getDifficulty() + ";;;" +
+                log.getTotalDistance() + ";;;" + // Convert meters to kilometers
+                log.getTotalTime() + ";;;" + // Convert seconds to hours
+                log.getRating()
+            );
+        }
+
+        // Flush and close the writer
+        writer.flush();
+        writer.close();
+    }
+
     @PostMapping("/import/csv")
     public void importToursCsv(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {

@@ -22,7 +22,10 @@ export class TourService extends ResourceService<TourModel> {
     return this.http.get<Blob>(this.apiUrl + this.resourceUrl + `/report`, {responseType: 'blob' as 'json'})
   }
 
-  exportToCsv(): Observable<Blob> {
+  exportToCsv(id: number | null = null): Observable<Blob> {
+    if(id)
+      return this.http.get<Blob>(this.apiUrl + this.resourceUrl + `/${id}/export/csv`, {responseType: 'blob' as 'json'})
+
     return this.http.get<Blob>(this.apiUrl + this.resourceUrl + `/export/csv`, {responseType: 'blob' as 'json'})
   }
 

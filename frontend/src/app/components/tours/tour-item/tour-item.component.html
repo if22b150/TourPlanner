@@ -1,43 +1,54 @@
 <div class="p-3 border rounded mb-4">
-  <div class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-between mb-3 mb-sm-0">
+  <div
+    class="d-flex flex-sm-row flex-column align-items-sm-start align-items-center justify-content-between mb-3 mb-sm-0">
     <a [routerLink]="tour.id + ''" class="text-body">
-      <h3 class="text-sm-start text-center" [innerHTML]="(TourHelper.getTourTitle(tour)) | highlightText : searchText"></h3>
+      <h3 class="text-sm-start text-center"
+          [innerHTML]="(TourHelper.getTourTitle(tour)) | highlightText : searchText"></h3>
     </a>
 
     <div class="d-flex justify-content-center gap-2">
       <!-- Small Screen -->
-      <app-mdb-button color="secondary" (onClick)="edit()" customClasses="d-sm-none" iconClass="fas fa-edit"></app-mdb-button>
-      <app-mdb-button color="danger" (onClick)="delete($event)" customClasses="d-sm-none" iconClass="fas fa-trash-alt"></app-mdb-button>
+      <app-mdb-button color="primary" [outlined]="true" (onClick)="export()" [loading]="exportLoading"
+                      customClasses="d-sm-none" iconClass="fas fa-file-export"></app-mdb-button>
+      <app-mdb-button color="secondary" (onClick)="edit()" customClasses="d-sm-none"
+                      iconClass="fas fa-edit"></app-mdb-button>
+      <app-mdb-button color="danger" (onClick)="delete($event)" customClasses="d-sm-none"
+                      iconClass="fas fa-trash-alt"></app-mdb-button>
 
       <!-- Normal Screen -->
-      <app-mdb-button text="Bearbeiten" color="secondary" (onClick)="edit()" customClasses="d-none d-sm-flex" iconClass="fas fa-edit"></app-mdb-button>
-      <app-mdb-button text="Löschen" color="danger" (onClick)="delete($event)" customClasses="d-none d-sm-flex" iconClass="fas fa-trash-alt"></app-mdb-button>
+      <app-mdb-button text="Exportieren" color="primary" [outlined]="true" (onClick)="export()" customClasses="d-none d-sm-inline"
+                      iconClass="fas fa-file-export"></app-mdb-button>
+      <app-mdb-button text="Bearbeiten" color="secondary" (onClick)="edit()" customClasses="d-none d-sm-inline"
+                      iconClass="fas fa-edit"></app-mdb-button>
+      <app-mdb-button text="Löschen" color="danger" (onClick)="delete($event)" customClasses="d-none d-sm-inline"
+                      iconClass="fas fa-trash-alt"></app-mdb-button>
 
     </div>
   </div>
 
   <div class="d-flex gap-2 flex-wrap justify-content-sm-start justify-content-center">
-    <span *ngFor="let transportation of TourHelper.getTourTransportations(tour!)" class="badge badge-primary">{{transportation}}</span>
+    <span *ngFor="let transportation of TourHelper.getTourTransportations(tour!)"
+          class="badge badge-primary">{{ transportation }}</span>
   </div>
 
   <hr>
 
   <div *ngIf="tour.popularity > 0" class="d-flex gap-3 align-items-center">
     <app-star-rating *ngIf="tour.popularity > 0" [rating]="tour.averageRating" [max]="5"></app-star-rating>
-    <span class="fst-italic">({{tour.popularity}} Einträge)</span>
+    <span class="fst-italic">({{ tour.popularity }} Einträge)</span>
   </div>
   <span *ngIf="tour.popularity == 0" class="fst-italic">(Keine Einträge)</span>
 
-  <h6 class="mt-3">{{tour.description}}</h6>
+  <h6 class="mt-3">{{ tour.description }}</h6>
 
   <div class="d-flex gap-4 justify-content-end">
     <div class="d-flex gap-2 align-items-center">
       <i class="fas fa-route" [mdbTooltip]="'Distanz'"></i>
-      <span>{{tour.distance/1000 | number : "1.0-0"}}km</span>
+      <span>{{ tour.distance / 1000 | number : "1.0-0" }}km</span>
     </div>
     <div class="d-flex gap-2 align-items-center">
       <i class="fas fa-stopwatch" [mdbTooltip]="'Geschätzte Dauer'"></i>
-      <span>{{tour.estimatedTime/60/60 | number : "1.1-1"}}h</span>
+      <span>{{ tour.estimatedTime / 60 / 60 | number : "1.1-1" }}h</span>
     </div>
   </div>
 </div>

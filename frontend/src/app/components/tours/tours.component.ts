@@ -35,7 +35,6 @@ export class ToursComponent {
   filteredTours: TourModel[] | undefined
   searchText: string | null = null
   exportLoading: boolean = false
-  importLoading: boolean = false
 
   constructor(private notificationService: NotificationService,
               public tourService: TourService,
