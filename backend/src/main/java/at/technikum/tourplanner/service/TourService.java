@@ -42,4 +42,6 @@ public interface TourService {
     TourLogDto parseTourLogFromCsvLine(String line);
 
     Date parseDate(String dateString);
+
+    ResponseEntity<Void> sendTour(Long id, String email);
 }

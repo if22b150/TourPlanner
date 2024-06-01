@@ -2,15 +2,18 @@ package at.technikum.tourplanner.service.impl;
 
 import at.technikum.tourplanner.persistence.entity.TourLogEntity;
 import at.technikum.tourplanner.persistence.repository.TourLogRepository;
+import at.technikum.tourplanner.service.EmailService;
 import at.technikum.tourplanner.service.MapApi;
 import at.technikum.tourplanner.service.TourLogService;
 import at.technikum.tourplanner.service.dto.TourDto;
 import at.technikum.tourplanner.persistence.entity.TourEntity;
 import at.technikum.tourplanner.service.dto.TourLogDto;
+import at.technikum.tourplanner.service.helper.MailGenerator;
 import at.technikum.tourplanner.service.mapper.TourMapper;
 import at.technikum.tourplanner.persistence.repository.TourRepository;
 import at.technikum.tourplanner.service.TourService;
-import at.technikum.tourplanner.service.reports.PdfGenerator;
+import at.technikum.tourplanner.service.helper.PdfGenerator;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -44,6 +47,10 @@ public class TourServiceImpl implements TourService {
     private PdfGenerator pdfGenerator;
     @Autowired
     private TourLogService tourLogService;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private MailGenerator mailGenerator;
 
     @Override
     public TourDto createTour(TourDto tourDto) {
@@ -347,6 +354,21 @@ public class TourServiceImpl implements TourService {
         } catch (ParseException e) {
             // Handle parsing exception
             return null;
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> sendTour(Long id, String email) {
+        TourEntity tour = getTourById(id);
+
+        String body = mailGenerator.parseThymeleafTemplateMailTourDetails(tour);
+
+        try {
+            emailService.sendEmail(email, "Tour " + tour.getName(), body);
+            return ResponseEntity.noContent().build();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

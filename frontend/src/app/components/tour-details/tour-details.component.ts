@@ -16,6 +16,9 @@ import { AddOrEditTourLogComponent } from './tour-logs/add-or-edit-tour-log/add-
 import {BreadcrumbService} from "../../services/breadcrumb.service";
 import {StarRatingComponent} from "../utils/star-rating/star-rating.component";
 import {MdbTooltipModule} from "mdb-angular-ui-kit/tooltip";
+import {MdbButtonComponent} from "../utils/mdb-button/mdb-button.component";
+import {ImportCsvComponent} from "../tours/import-csv/import-csv.component";
+import {ShareTourComponent} from "./share-tour/share-tour.component";
 
 @Component({
   selector: 'app-tour-details',
@@ -30,7 +33,8 @@ import {MdbTooltipModule} from "mdb-angular-ui-kit/tooltip";
     TourLogsComponent,
     StarRatingComponent,
     MdbTooltipModule,
-    DecimalPipe
+    DecimalPipe,
+    MdbButtonComponent
   ],
   templateUrl: './tour-details.component.html',
   styleUrl: './tour-details.component.scss'
@@ -108,6 +112,13 @@ export class TourDetailsComponent {
           document.body.removeChild(a);
         }
       })
+  }
+
+  share() {
+    let modalRef = this.modalService.open(ShareTourComponent, {data: {tour: this.tour}})
+    modalRef.onClose.subscribe(() => {
+      this.notificationService.notify("Die Tour wurde erfolgreich per E-Mail geteilt.")
+    })
   }
 
   handleInvalidTour() {

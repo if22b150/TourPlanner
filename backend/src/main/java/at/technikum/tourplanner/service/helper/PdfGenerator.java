@@ -1,9 +1,6 @@
-package at.technikum.tourplanner.service.reports;
+package at.technikum.tourplanner.service.helper;
 
 import at.technikum.tourplanner.persistence.entity.TourEntity;
-import at.technikum.tourplanner.service.TourService;
-import at.technikum.tourplanner.service.dto.TourDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

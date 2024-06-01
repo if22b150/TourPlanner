@@ -72,6 +72,11 @@ public class TourController {
         tourService.importToursCsv(file);
     }
 
+    @PostMapping("/{id}/send/{email}")
+    public ResponseEntity<Void> sendTour(@PathVariable Long id, @PathVariable String email) {
+        return tourService.sendTour(id, email);
+    }
+
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(

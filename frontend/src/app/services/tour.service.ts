@@ -34,4 +34,8 @@ export class TourService extends ResourceService<TourModel> {
     formData.append('file', file);
     return this.http.post<any>(this.apiUrl + this.resourceUrl + `/import/csv`, formData)
   }
+
+  share(id: number, email: string): Observable<any> {
+    return this.http.post<any>(this.apiUrl + this.resourceUrl + `/${id}/send/${email}`, {})
+  }
 }

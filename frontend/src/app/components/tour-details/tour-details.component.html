@@ -30,7 +30,9 @@
       <span *ngIf="tour!.popularity == 0" class="fst-italic">(Keine Einträge)</span>
     </div>
 
-    <h6 class="mt-3">{{ tour!.description }}</h6>
+    <h6 class="mt-3 mb-3">{{ tour!.description }}</h6>
+
+    <app-mdb-button iconClass="fas fa-share-alt fa-lg" [outlined]="true" text="Teilen" (onClick)="share()"></app-mdb-button>
   </div>
 
   <hr class="my-4">
