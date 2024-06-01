@@ -42,4 +42,12 @@ public class TourLogEntity {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tour_id", nullable = false)
     private TourEntity tour;
+
+    public String getFormattedTotalDistance() {
+        return totalDistance != null ? String.format("%.0f km", totalDistance) : "N/A";
+    }
+
+    public String getFormattedTotalTime() {
+        return totalTime != null ? String.format("%.0f hours", totalTime) : "N/A";
+    }
 }

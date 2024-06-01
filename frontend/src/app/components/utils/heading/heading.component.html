@@ -1,10 +1,11 @@
 <div class="d-flex align-items-center justify-content-between gap-2 flex-sm-row flex-column">
   <div class="d-flex flex-column align-items-sm-start align-items-center">
-    <h1 class="m-0">{{title}}</h1>
+    <h1 class="m-0">{{ title }}</h1>
     <h4 *ngIf="subtitle"
         class="m-0" [innerHTML]="subtitle"></h4>
   </div>
 
-  <app-mdb-button *ngIf="actionText || actionIcon" (onClick)="actionClicked.emit()" [text]="actionText" [iconClass]="actionIcon"></app-mdb-button>
+  <app-mdb-button *ngIf="actionText || actionIcon" (onClick)="actionClicked.emit()" [text]="actionText"
+                  [iconClass]="actionIcon" [outlined]="actionOutlined" [loading]="actionLoading"></app-mdb-button>
 
 </div>

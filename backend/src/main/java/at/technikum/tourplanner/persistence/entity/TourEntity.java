@@ -57,4 +57,13 @@ public class TourEntity {
 
         return totalRating / tourLogs.size();
     }
+
+    public String getFormattedDistance() {
+        return distance != null ? String.format("%.0f km", distance / 1000) : "N/A";
+    }
+
+    public String getFormattedEstimatedTime() {
+        return estimatedTime != null ? String.format("%.1f hours", estimatedTime / 3600) : "N/A";
+    }
 }
+

@@ -12,6 +12,7 @@ import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {HighlightTextPipe} from "../../../pipes/highlight-text.pipe";
 import {StarRatingComponent} from "../../utils/star-rating/star-rating.component";
+import {MdbTooltipModule} from "mdb-angular-ui-kit/tooltip";
 
 @Component({
   selector: 'app-tour-item',
@@ -23,7 +24,8 @@ import {StarRatingComponent} from "../../utils/star-rating/star-rating.component
     HighlightTextPipe,
     StarRatingComponent,
     NgIf,
-    DecimalPipe
+    DecimalPipe,
+    MdbTooltipModule
   ],
   templateUrl: './tour-item.component.html',
   styleUrl: './tour-item.component.scss'

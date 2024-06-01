@@ -54,7 +54,7 @@ public class TourServiceImpl implements TourService {
                 .build();
         tourRepository.save(entity);
 
-        // TODO: the image, the distance, and the time should be retrieved by a REST request using the OpenRouteservice.org APIs and OpenStreetMap Tile Server
+        // TODO: the image
 
         return tourMapper.mapToDto(entity);
     }
@@ -95,5 +95,15 @@ public class TourServiceImpl implements TourService {
         tourLogRepository.deleteByTour(tourEntity);
         // Delete the Tour
         tourRepository.delete(tourEntity);
+    }
+
+    @Override
+    public TourEntity getTourById(Long id) {
+        Optional<TourEntity> optionalTour = tourRepository.findById(id);
+        if (optionalTour.isPresent()) {
+            return optionalTour.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tour not found");
+        }
     }
 }

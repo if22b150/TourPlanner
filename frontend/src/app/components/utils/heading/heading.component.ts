@@ -19,5 +19,7 @@ export class HeadingComponent {
   @Input() subtitle: string | undefined;
   @Input() actionText: string | undefined;
   @Input() actionIcon: string | undefined;
+  @Input() actionOutlined: boolean = false;
+  @Input() actionLoading: boolean = false;
   @Output() actionClicked: EventEmitter<any> = new EventEmitter<any>();
 }

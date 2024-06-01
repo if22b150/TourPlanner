@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input} from '@angular/core';
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {HeadingComponent} from "../utils/heading/heading.component";
 import {SpinnerComponent} from "../utils/spinner/spinner.component";
 import {TourHelper, TourItemComponent} from "../tours/tour-item/tour-item.component";
@@ -14,6 +14,8 @@ import {TourLogService} from "../../services/tour-log.service";
 import {TourLogsComponent} from "./tour-logs/tour-logs.component";
 import { AddOrEditTourLogComponent } from './tour-logs/add-or-edit-tour-log/add-or-edit-tour-log.component';
 import {BreadcrumbService} from "../../services/breadcrumb.service";
+import {StarRatingComponent} from "../utils/star-rating/star-rating.component";
+import {MdbTooltipModule} from "mdb-angular-ui-kit/tooltip";
 
 @Component({
   selector: 'app-tour-details',
@@ -25,7 +27,10 @@ import {BreadcrumbService} from "../../services/breadcrumb.service";
     NgIf,
     SpinnerComponent,
     TourItemComponent,
-    TourLogsComponent
+    TourLogsComponent,
+    StarRatingComponent,
+    MdbTooltipModule,
+    DecimalPipe
   ],
   templateUrl: './tour-details.component.html',
   styleUrl: './tour-details.component.scss'
@@ -37,6 +42,7 @@ export class TourDetailsComponent {
   tourLogs: TourLogModel[] | undefined
   tourLogAdded = new EventEmitter<TourLogModel>()
   loading: boolean = false
+  generateLoading: boolean = false
 
   @Input()
   set id(tourId: string) {
@@ -84,6 +90,24 @@ export class TourDetailsComponent {
       this.tourLogAdded.emit(value)
       this.notificationService.notify("Die Tour wurde erfolgreich erstellt.")
     })
+  }
+
+  generateReport() {
+    this.generateLoading = true
+    this.tourService.downloadReport(this.tour!.id)
+      .pipe(finalize(() => this.generateLoading = false))
+      .subscribe({
+        next: (blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `tour_${this.tour!.id}_report.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }
+      })
   }
 
   handleInvalidTour() {

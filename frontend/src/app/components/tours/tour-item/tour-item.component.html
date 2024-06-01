@@ -31,7 +31,13 @@
   <h6 class="mt-3">{{tour.description}}</h6>
 
   <div class="d-flex gap-4 justify-content-end">
-    <span>Distanz: {{tour.distance/1000 | number : "1.0-0"}}km</span>
-    <span>Geschätzte Dauer: {{tour.estimatedTime/60/60 | number : "1.1-1"}}h</span>
+    <div class="d-flex gap-2 align-items-center">
+      <i class="fas fa-route" [mdbTooltip]="'Distanz'"></i>
+      <span>{{tour.distance/1000 | number : "1.0-0"}}km</span>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+      <i class="fas fa-stopwatch" [mdbTooltip]="'Geschätzte Dauer'"></i>
+      <span>{{tour.estimatedTime/60/60 | number : "1.1-1"}}h</span>
+    </div>
   </div>
 </div>

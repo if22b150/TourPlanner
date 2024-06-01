@@ -1,0 +1,107 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .details, .logs {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        .details th, .details td, .logs th, .logs td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .logs th, .logs td {
+            text-align: center;
+        }
+        .date {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="date">
+    <span th:text="${currentDate}"></span>
+</div>
+<h3 class="header">
+    <span th:text="${header}"></span>
+</h3>
+<table class="details">
+    <tr>
+        <th>ID</th>
+        <td th:text="${tour.id}">ID</td>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <td th:text="${tour.name}">Name</td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td th:text="${tour.description}">Description</td>
+    </tr>
+    <tr>
+        <th>From</th>
+        <td th:text="${tour.from}">From</td>
+    </tr>
+    <tr>
+        <th>To</th>
+        <td th:text="${tour.to}">To</td>
+    </tr>
+    <tr>
+        <th>Transport Type</th>
+        <td th:text="${tour.transportType}">Transport Type</td>
+    </tr>
+    <tr>
+        <th>Distance</th>
+        <td th:text="${tour.formattedDistance}">Distance</td>
+    </tr>
+    <tr>
+        <th>Estimated Time</th>
+        <td th:text="${tour.formattedEstimatedTime} ">Estimated Time</td>
+    </tr>
+    <tr>
+        <th>Popularity</th>
+        <td th:text="${tour.tourLogs.size() + ' TourLogs'}">Popularity</td>
+    </tr>
+    <tr>
+        <th>Average Rating</th>
+        <td th:text="${tour.averageRating + ' out of 5'}">Average Rating</td>
+    </tr>
+</table>
+<h4>Tour Logs</h4>
+<table class="logs">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Comment</th>
+        <th>Difficulty</th>
+        <th>Total Distance</th>
+        <th>Total Time</th>
+        <th>Rating</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${tourLogs.empty}">
+        <td colspan="7">No logs available</td>
+    </tr>
+    <tr th:each="log : ${tourLogs}">
+        <td th:text="${log.id}">ID</td>
+        <td th:text="${#dates.format(log.date, 'dd.MM.yyyy')}">Date</td>
+        <td th:text="${log.comment}">Comment</td>
+        <td th:text="${log.difficulty}">Difficulty</td>
+        <td th:text="${log.formattedTotalDistance}">Total Distance</td>
+        <td th:text="${log.formattedTotalTime}">Total Time</td>
+        <td th:text="${log.rating}">Rating</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
