@@ -106,4 +106,9 @@ public class TourServiceImpl implements TourService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tour not found");
         }
     }
+
+    @Override
+    public List<TourEntity> getAllTourEntities() {
+        return tourRepository.findAll();
+    }
 }

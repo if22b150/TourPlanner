@@ -17,4 +17,8 @@ export class TourService extends ResourceService<TourModel> {
   downloadReport(id: number): Observable<Blob> {
     return this.http.get<Blob>(this.apiUrl + this.resourceUrl + `/${id}/report`, {responseType: 'blob' as 'json'})
   }
+
+  downloadSummaryReport(): Observable<Blob> {
+    return this.http.get<Blob>(this.apiUrl + this.resourceUrl + `/report`, {responseType: 'blob' as 'json'})
+  }
 }

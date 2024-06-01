@@ -10,6 +10,8 @@ public interface TourService {
     TourDto createTour(TourDto tourDto);
     List<TourDto> getAllTours();
 
+    List<TourEntity> getAllTourEntities();
+
     List<TourDto> getToursByName(String name);
 
     TourDto updateTour(Long id, TourDto tourDto);

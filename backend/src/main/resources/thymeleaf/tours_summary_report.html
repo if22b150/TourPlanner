@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .details, .logs {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        .details th, .details td, .logs th, .logs td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .logs th, .logs td {
+            text-align: center;
+        }
+        .date {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="date">
+    <span th:text="${currentDate}"></span>
+</div>
+<h3 class="header">
+    <span th:text="${header}"></span>
+</h3>
+<table class="details">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Average Time</th>
+        <th>Average Distance</th>
+        <th>Popularity</th>
+        <th>Average Rating</th>
+    </tr>
+    </thead>
+
+    <tr th:if="${tours.empty}">
+        <td colspan="6">No tours available</td>
+    </tr>
+    <tr th:each="tour : ${tours}">
+        <td th:text="${tour.id}">ID</td>
+        <td th:text="${tour.name}">Name</td>
+        <td th:text="${tour.formattedAverageTime}">Average Time</td>
+        <td th:text="${tour.formattedAverageDistance}">Average Distance</td>
+        <td th:text="${tour.tourLogs.size() + ' TourLogs'}">Popularity</td>
+        <td th:text="${tour.averageRating + ' out of 5'}">Average Rating</td>
+    </tr>
+</table>
+</body>
+</html>

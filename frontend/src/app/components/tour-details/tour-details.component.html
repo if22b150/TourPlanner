@@ -1,6 +1,6 @@
 <div *ngIf="!(tourService.loading$ | async) || (tourService.data$|async); else spinner">
   <div class="mb-2">
-    <app-heading title="{{tour!.name}} : ({{tour!.from}} - {{tour!.to}})" [subtitle]="" actionText="Report generieren"
+    <app-heading title="{{tour!.name}} : ({{tour!.from}} - {{tour!.to}})" actionText="Report generieren"
                  actionIcon="fas fa-file-download" (actionClicked)="generateReport()"
                  [actionOutlined]="true" [actionLoading]="generateLoading"></app-heading>
     <div class="d-flex gap-4 align-items-center mt-2">

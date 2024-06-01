@@ -3,6 +3,10 @@
     <!-- Navbar brand -->
     <a class="navbar-brand" href="#">TourPlanner</a>
 <!--    <app-breadcrumbs></app-breadcrumbs>-->
+    <app-mdb-button  *ngIf="currentRoute === '/tours'"
+                     text="Report generieren"
+                     iconClass="fas fa-file-download" (onClick)="generateReport()"
+                     [outlined]="true" [loading]="generateLoading"></app-mdb-button>
   </div>
 </nav>
 

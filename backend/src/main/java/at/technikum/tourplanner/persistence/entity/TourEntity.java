@@ -65,5 +65,38 @@ public class TourEntity {
     public String getFormattedEstimatedTime() {
         return estimatedTime != null ? String.format("%.1f hours", estimatedTime / 3600) : "N/A";
     }
+
+    private double getAverageDistance() {
+        if (tourLogs == null || tourLogs.isEmpty()) {
+            return 0;
+        }
+
+        double avDistance = tourLogs.stream()
+                .mapToDouble(TourLogEntity::getTotalDistance)
+                .sum();
+
+        return avDistance / tourLogs.size();
+    }
+
+    private double getAverageTime() {
+        if (tourLogs == null || tourLogs.isEmpty()) {
+            return 0;
+        }
+
+        double totalTime = tourLogs.stream()
+                .mapToDouble(TourLogEntity::getTotalTime)
+                .sum();
+
+        return totalTime / tourLogs.size();
+    }
+
+
+    public String getFormattedAverageDistance() {
+        return String.format("%.0f km", getAverageDistance());
+    }
+
+    public String getFormattedAverageTime() {
+        return String.format("%.1f hours", getAverageTime());
+    }
 }
 

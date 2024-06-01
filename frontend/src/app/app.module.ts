@@ -12,6 +12,8 @@ import {environment} from "../environments/environment";
 import {HttpClientModule} from "@angular/common/http";
 import localeDe from '@angular/common/locales/de';
 import {BreadcrumbsComponent} from "./components/utils/breadcrumbs/breadcrumbs.component";
+import {MdbButtonComponent} from "./components/utils/mdb-button/mdb-button.component";
+import {HeadingComponent} from "./components/utils/heading/heading.component";
 
 export const ENVIRONMENT = new InjectionToken<{ [key: string]: any }>('environment')
 registerLocaleData(localeDe);
@@ -36,13 +38,15 @@ export class EnvironmentService {
   declarations: [
     AppComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        BreadcrumbsComponent
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    BreadcrumbsComponent,
+    MdbButtonComponent,
+    HeadingComponent
+  ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment },
     { provide: LOCALE_ID, useValue: 'de' },

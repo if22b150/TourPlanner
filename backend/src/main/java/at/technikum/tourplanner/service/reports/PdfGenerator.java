@@ -14,6 +14,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import java.io.OutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Component
 public class PdfGenerator
@@ -37,8 +38,24 @@ public class PdfGenerator
         return templateEngine.process("thymeleaf/tour_report", context);
     }
 
-    private void generatePdfFromHtml(String html, String fileName, OutputStream outputStream) throws Exception {
-        String output = fileName + ".pdf";
+    private String parseThymeleafTemplateToursSummaryDetails(List<TourEntity> tours) {
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+
+        TemplateEngine templateEngine = new TemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver);
+
+        Context context = new Context();
+        context.setVariable("header", "Tours Summary Report");
+        context.setVariable("tours", tours);
+        String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        context.setVariable("currentDate", currentDate);
+
+        return templateEngine.process("thymeleaf/tours_summary_report", context);
+    }
+
+    private void generatePdfFromHtml(String html, OutputStream outputStream) throws Exception {
         ITextRenderer renderer = new ITextRenderer();
         renderer.setDocumentFromString(html);
         renderer.layout();
@@ -48,6 +65,10 @@ public class PdfGenerator
     }
 
     public void generateTourReport(TourEntity tour, OutputStream outputStream) throws Exception {
-        generatePdfFromHtml(parseThymeleafTemplateTourDetails(tour), "tour_" + tour.getId(), outputStream);
+        generatePdfFromHtml(parseThymeleafTemplateTourDetails(tour), outputStream);
+    }
+
+    public void generateToursSummaryReport(List<TourEntity> tours, OutputStream outputStream) throws Exception {
+        generatePdfFromHtml(parseThymeleafTemplateToursSummaryDetails(tours), outputStream);
     }
 }

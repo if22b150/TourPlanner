@@ -79,6 +79,30 @@ public class TourController {
         }
     }
 
+    @GetMapping("/report")
+    public ResponseEntity<InputStreamResource> getToursSummaryReport() {
+        try {
+            List<TourEntity> tours = tourService.getAllTourEntities();  // Ensure this method exists in TourService
+            ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
+            pdfGenerator.generateToursSummaryReport(tours, pdfOutputStream);
+
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(pdfOutputStream.toByteArray());
+            InputStreamResource resource = new InputStreamResource(inputStream);
+            String filename = "tours_summary_report.pdf";
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", filename);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
