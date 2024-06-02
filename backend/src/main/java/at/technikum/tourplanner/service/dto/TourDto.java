@@ -1,5 +1,6 @@
 package at.technikum.tourplanner.service.dto;
 
+import at.technikum.tourplanner.persistence.entity.TourEntity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,4 +28,17 @@ public class TourDto {
     private String imagePath;
     private int popularity;
     private int averageRating;
+
+    public static TourEntity toEntity(TourDto tour) {
+        TourEntity entity = new TourEntity();
+        entity.setId(tour.id);
+        entity.setName(tour.name);
+        entity.setDescription(tour.description);
+        entity.setFrom(tour.from);
+        entity.setTo(tour.to);
+        entity.setTransportType(tour.transportType);
+        entity.setDistance(tour.distance);
+        entity.setImagePath(tour.imagePath);
+        return entity;
+    }
 }

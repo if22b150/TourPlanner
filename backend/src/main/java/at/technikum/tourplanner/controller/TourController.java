@@ -1,5 +1,6 @@
 package at.technikum.tourplanner.controller;
 
+import at.technikum.tourplanner.persistence.entity.TourEntity;
 import at.technikum.tourplanner.service.dto.TourDto;
 import at.technikum.tourplanner.service.TourService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,6 +31,8 @@ public class TourController {
     @GetMapping("/name/{name}")
     public List<TourDto> getToursByName(@PathVariable String name) { return tourService.getToursByName(name); }
 
+    @GetMapping("/{id}")
+    public TourEntity getTourById(@PathVariable Long id) { return tourService.getTourById(id); }
 
     @PostMapping
     public TourDto create(@Valid @RequestBody TourDto tour) {

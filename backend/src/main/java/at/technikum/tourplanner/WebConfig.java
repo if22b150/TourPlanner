@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
+    public static String url = "http://localhost:8080/";
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

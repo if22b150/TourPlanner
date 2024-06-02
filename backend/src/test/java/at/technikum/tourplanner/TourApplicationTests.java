@@ -4,25 +4,32 @@ import at.technikum.tourplanner.controller.TourController;
 import at.technikum.tourplanner.service.TourService;
 import at.technikum.tourplanner.service.dto.TourDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = TourController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -38,64 +45,225 @@ class TourApplicationTests {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	private TourDto tour;
-	private TourDto failedTour;
+	private ObjectWriter objectWriter;
 
-	@BeforeEach
-	public void init() {
-		tour = TourDto.builder()
-				.id(1L)
-				.name("Test Tour")
-				.description("Test description")
-				.from("Test origin")
-				.to("Test destination")
-				.transportType("Test transport type")
-				.distance(100.0)
-				.estimatedTime(2.5)
-				.imagePath("test_image.jpg")
-				.build();
+	private TourDto tour1 = TourDto.builder()
+			.id(1L)
+			.name("Test")
+			.description("Test description 1")
+			.from("Test origin 1")
+			.to("Test destination 1")
+			.transportType("Test transport type 1")
+			.distance(100.0)
+			.estimatedTime(1.5)
+			.imagePath("test_image1.jpg")
+			.build();
 
-		failedTour = TourDto.builder()
-				.id(2L)
-				.build();
+	private TourDto tour2 = TourDto.builder()
+			.id(2L)
+			.name("Test Tour 2")
+			.description("Test description 2")
+			.from("Test origin 2")
+			.to("Test destination 2")
+			.transportType("Test transport type 2")
+			.distance(200.0)
+			.estimatedTime(2.5)
+			.imagePath("test_image2.jpg")
+			.build();
+
+	private TourDto updatedTour = TourDto.builder()
+			.id(1L)
+			.name("updatedTest")
+			.description("Test description 1")
+			.from("Test origin 1")
+			.to("Test destination 1")
+			.transportType("Test transport type 1")
+			.distance(100.0)
+			.estimatedTime(1.5)
+			.imagePath("test_image1.jpg")
+			.build();
+
+
+	@PostConstruct
+	public void setUp() {
+		this.objectWriter = objectMapper.writer();
 	}
 
 	@Test
-	void testCreateTourWorking() throws Exception {
-		given(tourService.createTour(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
+	void createTour_success() throws Exception {
+		Mockito.when(tourService.createTour(tour1)).thenReturn(tour1);
 
-		ResultActions response = mockMvc.perform(post("/tours")
+		String content = objectWriter.writeValueAsString(tour1);
+
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/tours")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(tour))
-		);
+				.accept(MediaType.APPLICATION_JSON)
+				.content(content);
 
-		response.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(tour.getName())))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.description", CoreMatchers.is(tour.getDescription())))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.to", CoreMatchers.is(tour.getTo())))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.from", CoreMatchers.is(tour.getFrom())))
-				.andDo(MockMvcResultHandlers.print());
+		mockMvc.perform(mockRequest)
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", notNullValue()));
 	}
 
 	@Test
-	void testCreateTourFailing() throws Exception {
-		given(tourService.createTour(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
+	void createTour_failed() throws Exception {
+		Mockito.when(tourService.createTour(tour1)).thenReturn(null);
 
-		ResultActions response = mockMvc.perform(post("/tours")
+		String content = objectWriter.writeValueAsString(tour1);
+
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/tours")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(failedTour))
-		);
+				.accept(MediaType.APPLICATION_JSON)
+				.content(content);
 
-		response.andExpect(MockMvcResultMatchers.status().is4xxClientError())
-				.andDo(MockMvcResultHandlers.print());
+		mockMvc.perform(mockRequest)
+				.andExpect(jsonPath("$").doesNotExist());
 	}
 
+	@Test
+	void updateTour_success() throws Exception {
+		Mockito.when(tourService.getTourById(tour1.getId())).thenReturn(TourDto.toEntity(tour1));
+		Mockito.when(tourService.updateTour(tour1.getId() ,updatedTour)).thenReturn(updatedTour);
+
+		String updatedContent = objectWriter.writeValueAsString(updatedTour);
+
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/tours/"+tour1.getId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(updatedContent);
+
+		mockMvc.perform(mockRequest)
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", notNullValue()))
+				.andExpect(jsonPath("$.name", is("updatedTest")));
+	}
 
 	@Test
-	void testgetAllTours() throws Exception {
-		ResultActions response = mockMvc.perform(get("/tours")
-				.contentType(MediaType.APPLICATION_JSON));
+	void updateTour_failed() throws Exception {
+		Mockito.when(tourService.getTourById(tour1.getId())).thenReturn(TourDto.toEntity(tour1));
+		Mockito.when(tourService.updateTour(tour1.getId() ,updatedTour)).thenReturn(null);
 
-		response.andExpect(MockMvcResultMatchers.status().isOk());
+		String updatedContent = objectWriter.writeValueAsString(updatedTour);
+
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/tours/"+tour1.getId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(updatedContent);
+
+		mockMvc.perform(mockRequest)
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$").doesNotExist());
+	}
+
+	@Test
+	void deleteTourById_success() throws Exception {
+		Mockito.when(tourService.getTourById(tour1.getId())).thenReturn(TourDto.toEntity(tour1));
+
+		mockMvc.perform(MockMvcRequestBuilders
+				.delete("/tours/"+tour1.getId())
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().is2xxSuccessful());
+	}
+
+	@Test
+	void deleteTourById_failed() throws Exception {
+		Mockito.when(tourService.getTourById(tour1.getId())).thenReturn(null);
+
+		mockMvc.perform(MockMvcRequestBuilders
+						.delete("/tours/"+tour1.getId())
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$").doesNotExist());
+	}
+
+	@Test
+	void getAllTours_success() throws Exception {
+		List<TourDto> tours = new ArrayList<>(Arrays.asList(tour1, tour2));
+
+		Mockito.when(tourService.getAllTours()).thenReturn(tours);
+
+		mockMvc.perform(MockMvcRequestBuilders
+				.get("/tours")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)));
+	}
+
+	@Test
+	void getAllTours_failure() throws Exception {
+		Mockito.when(tourService.getAllTours()).thenReturn(Collections.emptyList());
+
+		mockMvc.perform(MockMvcRequestBuilders
+						.get("/tours")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(0)));
+	}
+
+	@Test
+	void getTourById_success() throws Exception {
+		Mockito.when(tourService.getTourById(tour1.getId())).thenReturn(TourDto.toEntity(tour1));
+
+		mockMvc.perform(MockMvcRequestBuilders
+				.get("/tours/"+tour1.getId())
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", notNullValue()));
+	}
+
+	@Test
+	void getTourById_failure() throws Exception {
+		Mockito.when(tourService.getTourById(tour1.getId())).thenReturn(null);
+
+		mockMvc.perform(MockMvcRequestBuilders
+						.get("/tours/"+tour1.getId())
+						.contentType(MediaType.APPLICATION_JSON))
+						.andExpect(jsonPath("$").doesNotExist());
+	}
+
+	@Test
+	void getTourByName_success() throws Exception {
+		List<TourDto> tours = new ArrayList<>(Arrays.asList(tour1, tour2));
+
+		Mockito.when(tourService.getToursByName(tour1.getName())).thenReturn(tours);
+
+		mockMvc.perform(MockMvcRequestBuilders
+				.get("/tours/name/"+tour1.getName())
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", notNullValue()));
+	}
+
+	@Test
+	void getTourByName_failure() throws Exception {
+		Mockito.when(tourService.getToursByName(tour1.getName())).thenReturn(Collections.emptyList());
+
+		mockMvc.perform(MockMvcRequestBuilders
+						.get("/tours/name/"+tour1.getName())
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", hasSize(0)));
+	}
+
+	@Test
+	void getTourReport_success() throws Exception {
+		InputStreamResource mockReport = new InputStreamResource(new ByteArrayInputStream("Mock report content".getBytes()));
+		Mockito.when(tourService.generateTourReport(tour1.getId())).thenReturn(ResponseEntity.ok().body(mockReport));
+
+		mockMvc.perform(MockMvcRequestBuilders
+						.get("/tours/1/report")
+						.contentType(MediaType.APPLICATION_PDF))
+				.andExpect(status().isOk())
+				.andExpect(content().string("Mock report content"));
+
+	}
+
+	@Test
+	void getTourReport_failed() throws Exception {
+		Mockito.when(tourService.generateTourReport(Mockito.anyLong())).thenReturn(ResponseEntity.notFound().build());
+
+		mockMvc.perform(MockMvcRequestBuilders
+						.get("/tours/1/report")
+						.contentType(MediaType.APPLICATION_PDF))
+				.andExpect(status().isNotFound());
 	}
 }

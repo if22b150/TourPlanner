@@ -72,4 +72,11 @@ public class TourLogServiceImpl implements TourLogService {
         // Delete associated TourLogs
         tourLogRepository.delete(tourLogEntity);
     }
+
+    @Override
+    public TourLogDto getTourLogById(Long tourId, Long tourLogId) {
+        TourLogEntity tourLogEntity = tourLogRepository.getReferenceById(tourLogId);
+
+        return tourLogMapper.mapToDto(tourLogEntity);
+    }
 }

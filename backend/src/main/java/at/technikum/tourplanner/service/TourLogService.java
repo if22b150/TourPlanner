@@ -13,4 +13,6 @@ public interface TourLogService {
     TourLogDto updateTourLog(Long tourId, Long tourLogId, TourLogDto tourLogDto);
 
     void deleteTourLog(Long id);
+
+    TourLogDto getTourLogById(Long tourId, Long tourLogId);
 }
