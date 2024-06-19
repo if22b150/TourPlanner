@@ -1,6 +1,29 @@
 version: '3.7'
 
 services:
+  app:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: .
+    container_name: tourplanner-app
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_USER=tourplanner
+      - POSTGRES_PASSWORD=tourplanner
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tourplanner
+      - SPRING_DATASOURCE_USERNAME=tourplanner
+      - SPRING_DATASOURCE_PASSWORD=tourplanner
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_MAIL_HOST=smtp.technikum-wien.at
+      - SPRING_MAIL_PORT=587
+      - SPRING_MAIL_USERNAME=if22b150@technikum-wien.at
+      - SPRING_MAIL_PASSWORD=
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+    ports:
+      - "8080:8080"
+
   db:
     container_name: tourplanner-db
     image: postgres:latest
