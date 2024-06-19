@@ -25,6 +25,9 @@ public class TourLogController {
         return tourLogService.getAllTourLogsByTour(tourId);
     }
 
+    @GetMapping("/{id}")
+    public TourLogDto getTourLogById(@PathVariable Long tourId, @PathVariable Long id) { return tourLogService.getTourLogById(tourId, id); }
+
     @PostMapping
     public TourLogDto create(@PathVariable Long tourId, @Valid @RequestBody TourLogDto tourLog) {
         return tourLogService.createTourLog(tourLog, tourId);
